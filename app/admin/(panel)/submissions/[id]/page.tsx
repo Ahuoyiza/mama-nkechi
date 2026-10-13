@@ -4,6 +4,8 @@ import { z } from "zod";
 import { ArrowLeft } from "lucide-react";
 import { AiReviewPanel } from "@/components/admin/AiReviewPanel";
 import { DecisionForm } from "@/components/admin/DecisionForm";
+import { PaintPanel } from "@/components/admin/PaintPanel";
+import { paintedPath } from "@/lib/images/paint";
 import { RecipeMethod } from "@/components/RecipeMethod";
 import { requireAdmin } from "@/lib/auth/admin";
 import { allergenLabels, categoryLabels, effortLabels } from "@/lib/recipes/labels";
@@ -22,7 +24,11 @@ export default async function ReviewSubmissionPage({ params }: PageProps<"/admin
   if (!s) notFound();
 
   // The photo bucket is private: make a link that works for 10 minutes only.
-  const { data: signed } = await supabase.storage.from("submission-images").createSignedUrl(s.image_path, 600);
+  const photos = supabase.storage.from("submission-images");
+  const [{ data: signed }, { data: painted }] = await Promise.all([
+    photos.createSignedUrl(s.image_path, 600),
+    photos.createSignedUrl(paintedPath(s.id), 600), // fails quietly if not painted yet
+  ]);
 
   const allergens = allergenList.parse(s.allergens);
   const stored = aiReviewSchema.safeParse(s.ai_review); // stored JSON is checked too
@@ -43,11 +49,14 @@ export default async function ReviewSubmissionPage({ params }: PageProps<"/admin
 
       <div className="review-grid">
         <div className="review-main">
+          <PaintPanel
+            submissionId={s.id}
+            title={s.title}
+            photoUrl={signed?.signedUrl ?? null}
+            paintedUrl={painted?.signedUrl ?? null}
+          />
+
           <div className="form-panel review-facts">
-            {signed?.signedUrl && (
-              // eslint-disable-next-line @next/next/no-img-element -- short-lived signed URL from the private bucket
-              <img src={signed.signedUrl} alt={`Photo sent with ${s.title}`} className="review-photo" />
-            )}
             <ul className="recipe-page-facts">
               <li>{s.total_minutes} mins</li>
               <li>{effortLabels[s.effort]}</li>
@@ -92,7 +101,11 @@ export default async function ReviewSubmissionPage({ params }: PageProps<"/admin
             category={s.category}
           />
           {s.status === "pending" ? (
-            <DecisionForm submissionId={s.id} suggestedTag={stored.success ? stored.data.suggestedTag : undefined} />
+            <DecisionForm
+              submissionId={s.id}
+              suggestedTag={stored.success ? stored.data.suggestedTag : undefined}
+              hasPainted={!!painted?.signedUrl}
+            />
           ) : (
             <section className="form-panel">
               <h2>{s.status === "approved" ? "Approved and published" : "Sent back"}</h2>
