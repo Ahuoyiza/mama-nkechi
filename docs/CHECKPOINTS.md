@@ -15,11 +15,11 @@ npm run dev
 
 | Branch | What's in it | What you build next |
 | --- | --- | --- |
-| `class/00-start` | Full UI and database. Schemas are stubs (`z.any()`), the form is plain HTML, and the server action saves whatever it's sent | **Activity 1:** break it (DevTools / Postman), then write the Zod schemas |
+| `class/00-start` | Full UI, database and admin area. Schemas are stubs (`z.any()`), the form is plain HTML, and the server action saves whatever it's sent | **Activity 1:** break it (DevTools / Postman), then write the Zod schemas |
 | `class/01-zod` | `recipeSubmissionSchema`, the helpers and their tests are complete | **Activity 2:** React Hook Form, `useFieldArray`, `Controller` |
 | `class/02-form` | The form is fully wired | **Activity 3:** server action validation, image re-check, `setError` mapping, env schema, rate limit |
-| `class/03-server` | The server side is complete | **Activity 4:** AI pre-review with an allowlist, `redact()` and safe logging *(coming)* |
-| `class/04-ai-privacy` | Same as `main` *(coming)* | Nothing: you're done! Apply the same ideas to your own project |
+| `class/03-server` | The server side and the admin area are complete; the AI pre-review works but sends too much | **Activity 4:** an allowlist with `z.strictObject`, `redact()` and safe logging |
+| `class/04-ai-privacy` | Same as `main` | Nothing: you're done! Apply the same ideas to your own project |
 
 Checks you can run on any branch: `npm run test`, `npm run lint`, `npm run typecheck`. On the early branches some test files are skipped (`describe.skip`): remove the `.skip` when you build that part, and the tests tell you if you got it right.
 
@@ -72,9 +72,19 @@ Helpers already in the repo: `components/submit/Field.tsx` (`FieldError`, `Hint`
 
 > **Instructor note.** Repeat the Activity 1 attack against the finished form: the browser now blocks it, but the request in DevTools can still be replayed, so the server must check again with the same schema. Note the server action's parameter is typed `unknown` on purpose. For the image: rename a text file to `.jpg` and watch `file.type` say `image/jpeg`; then show `file-type` reading the real bytes. For EXIF, take a phone photo with location on and show the GPS data before and after `sharp`. For the env schema, `lib/env.ts` on this branch contains a deliberate bug: `Boolean("false")` is `true`. Ask the class to spot it, then fix it with `z.stringbool()`.
 
-## class/03-server → Activity 4: AI pre-review and privacy *(coming)*
+## class/03-server → Activity 4: AI pre-review and data privacy
 
-`lib/ai/review-context.ts` (a `z.strictObject` allowlist), `lib/privacy/redact.ts` and `lib/ai/log.ts`. This checkpoint will be updated when the AI pre-review is added to `main`.
+| File | Line | TODO |
+| --- | --- | --- |
+| `lib/privacy/redact.ts` | 8 | Replace emails, Nigerian phone numbers and 11-digit ID numbers with `[EMAIL]`, `[PHONE]`, `[ID_NUMBER]` |
+| `lib/ai/review-context.ts` | 11 | `reviewContextSchema` as a `z.strictObject` allowlist of recipe fields only |
+| `lib/ai/review-context.ts` | 20 | Build the context field by field and `redact()` every text field |
+| `lib/ai/log.ts` | 17 | Log only route, a hashed admin id, model, outcome, tokens and duration |
+| `lib/privacy/__tests__/redact.test.ts`, `lib/ai/__tests__/review-context.test.ts`, `lib/ai/__tests__/log.test.ts` | 1 | Remove `.skip` |
+
+Already in place: the route (`app/api/admin/ai-review/route.ts`, with structured output from `aiReviewSchema`), the admin review screen and its "Ask Mama's helper" panel.
+
+> **Instructor note.** Sign in at `/admin`, open the **Ẹ̀fọ́ Rírò** submission and press "Ask Mama's helper" with the Network tab open, then show the server log: on this branch the whole row goes to the model (the cook's name, email, phone, IP hash) and the log prints the admin's raw id. That's the problem to fix. Build the allowlist first and show `z.strictObject` rejecting a sneaky `submitterEmail`. Then `redact()`: the seed recipe has a phone number typed into step 3. After the fix, the model sees `[PHONE]`. Finish with the log: ask "who reads our logs?" Point out the AI is only a helper: it often misses that crayfish is shellfish, and the allergen check flags the gap for Mama to decide.
 
 ## class/04-ai-privacy → Done
 
