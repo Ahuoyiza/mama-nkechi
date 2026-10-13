@@ -15,7 +15,7 @@
     "db:types": "supabase gen types typescript --linked --schema public > lib/supabase/database.types.ts"
   },
   "dependencies": {
-    "@ai-sdk/google": "^4.0.95",
+    "@ai-sdk/google": "^3.0.132",
     "@hookform/resolvers": "^5.9.1",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.117.3",
@@ -42,5 +42,8 @@
     "typescript": "^5",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^3.2.7"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }
