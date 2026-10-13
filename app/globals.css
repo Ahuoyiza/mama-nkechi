@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./site.css";
 
 /*
  * Design tokens, copied from the reference design.
@@ -33,8 +34,8 @@
 
 /* Expose the tokens to Tailwind utilities (bg-peach, text-ink, font-display...). */
 @theme inline {
-  --font-sans: var(--font-sans);
-  --font-display: var(--font-display);
+  --font-sans: var(--font-dm-sans), "DM Sans", sans-serif;
+  --font-display: var(--font-itim), "Itim", "Comic Sans MS", cursive;
   --radius-DEFAULT: var(--radius);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -66,6 +67,7 @@ html {
 
 body {
   margin: 0;
+  line-height: normal; /* the reference relies on the browser default, not Tailwind's 1.5 */
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);

@@ -1,0 +1,181 @@
+/*
+ * Ported from the reference design's stylesheet. Class names, sizes and
+ * breakpoints are kept as they are so the two can be compared line by line.
+ * Additions are marked "added".
+ */
+
+button, a, input { -webkit-tap-highlight-color: transparent; }
+h1, h2, h3, p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Header ---------- */
+.site-header { max-width: 1260px; margin: auto; padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-family: var(--font-display); font-size: 19px; line-height: 1.05; }
+.brand strong { display: block; font-weight: 400; font-size: 29px; }
+.brand-dot { color: var(--primary); }
+.brand-pot { color: var(--primary); transform: rotate(-9deg); display: inline-flex; }
+.brand-pot svg { width: 32px; height: 32px; } /* added */
+.site-header nav, .header-tools { display: flex; align-items: center; gap: 28px; }
+.header-tools { gap: 15px; }
+.nav-link { color: var(--ink); font-size: 14px; padding: 4px; height: auto; }
+.nav-link.current { position: relative; }
+.nav-link.current::after { content: ''; position: absolute; height: 3px; background: var(--primary); bottom: -8px; left: 12px; right: 12px; border-radius: 50%; transform: rotate(-3deg); }
+.nav-link:hover { text-decoration: underline; }
+
+/* ---------- Candy buttons ---------- */
+.candy-button { display: inline-flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; background: var(--primary); color: var(--primary-foreground); border: 2px solid var(--ink); border-radius: 13px 15px 13px 15px; box-shadow: inset 0 3px 0 var(--candy-highlight), var(--candy-shadow); font-family: var(--font-display); font-size: 20px; height: 49px; padding: 0 25px; transition: transform .18s, box-shadow .18s; }
+.candy-button:hover { transform: translateY(-2px) rotate(-1deg); box-shadow: inset 0 3px 0 var(--candy-highlight), 0 6px 0 var(--ink); }
+.candy-button:active { transform: translateY(3px); box-shadow: inset 0 3px 0 var(--candy-highlight), 0 1px 0 var(--ink); }
+.candy-button-sweet { background: var(--secondary); color: var(--ink); box-shadow: inset 0 3px 0 var(--sweet-highlight), var(--candy-shadow); }
+.candy-button-sweet:hover { box-shadow: inset 0 3px 0 var(--sweet-highlight), 0 6px 0 var(--ink); }
+.candy-button:disabled { opacity: .7; cursor: progress; transform: none; } /* added */
+.saved-button { height: 41px; padding: 0 17px; font-size: 16px; border-radius: 10px 12px 10px 12px; gap: 8px; }
+.saved-button svg { width: 18px; height: 18px; } /* added */
+.saved-count { font-family: var(--font-sans); font-size: 11px; }
+.playful-icon { color: var(--ink); border-radius: 50%; background: transparent; transition: transform .18s, background .18s; }
+.playful-icon:hover { background: var(--accent); transform: rotate(-8deg); }
+.playful-icon[aria-pressed=true] { color: var(--primary); }
+
+/* ---------- Hero ---------- */
+.hero { background: var(--hero-surface); position: relative; overflow: hidden; border-top: 1px solid var(--border); }
+.hero-inner { max-width: 1260px; padding: 52px 72px 20px; margin: auto; min-height: 540px; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 24px; }
+.eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 1.7px; display: flex; align-items: center; gap: 9px; }
+.little-star { color: var(--herb-ink); width: 18px; height: 18px; flex-shrink: 0; }
+.hero h1 { font-size: 76px; line-height: 1.02; margin-top: 18px; }
+.pot-word { color: var(--primary); display: inline-block; position: relative; font-size: 102px; line-height: 1; }
+.pot-word::after { content: ''; display: block; height: 7px; border-bottom: 4px solid var(--primary); border-radius: 50%; width: 90%; transform: rotate(-3deg); }
+.heading-spark { font-size: 54px; color: var(--ink); position: absolute; top: 10px; right: -78px; transform: rotate(15deg); display: inline-flex; }
+.heading-spark svg { width: .72em; height: .72em; } /* added: SVG in place of the ✧ glyph */
+.hero h2 { font-size: 31px; margin: 23px 0 12px; }
+.hero-copy > p { color: var(--muted-foreground); font-size: 15px; line-height: 1.8; }
+.hero-cta { margin-top: 26px; min-width: 177px; }
+.hero-note { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--muted-foreground); margin-top: 20px; }
+.hero-note svg { color: var(--primary); width: 18px; height: 18px; }
+.hero-art { position: relative; width: 100%; aspect-ratio: 1; }
+.food-halo { position: absolute; inset: 11% 2% 3% 3%; background: var(--halo); border-radius: 48% 52% 43% 57% / 50% 44% 56% 50%; transform: rotate(-12deg); }
+.hero-food { position: relative; width: 110%; max-width: none; height: auto; margin-left: -4%; margin-top: 3%; transform: rotate(-7deg); filter: drop-shadow(0 12px 0 color-mix(in oklab, var(--ink) 7%, transparent)); }
+.food-caption { position: absolute; top: -6px; right: 26px; z-index: 2; font-family: var(--font-display); font-size: 23px; transform: rotate(8deg); }
+.food-arrow { position: absolute; width: 65px; right: 8px; top: 22px; z-index: 2; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; }
+.art-spark { position: absolute; color: var(--herb-ink); font-family: var(--font-display); display: inline-flex; }
+.art-spark svg { width: .7em; height: .7em; } /* added */
+.spark-one { top: 50px; left: 10px; font-size: 46px; transform: rotate(15deg); }
+.spark-two { bottom: 24px; left: 3px; font-size: 40px; }
+.love-stamp { position: absolute; bottom: 9px; right: -6px; width: 108px; height: 108px; border: 2px dashed var(--herb-ink); outline: 4px solid var(--background); background: var(--background); color: var(--herb-ink); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 3px; transform: rotate(10deg); font-family: var(--font-display); font-size: 15px; line-height: 1.1; }
+.love-stamp > svg { width: 22px; height: 22px; }
+.hero-bottom { max-width: 1116px; margin: auto; padding: 10px 0 24px; display: flex; justify-content: space-between; align-items: center; color: var(--muted-foreground); font-size: 10px; }
+.hero-bottom a { color: var(--ink); display: inline-flex; }
+.hero-bottom svg { width: 14px; height: 14px; }
+
+/* ---------- Flavour strip ---------- */
+.flavour-strip { background: var(--secondary); border-block: 1.5px solid var(--ink); padding: 15px 24px; display: flex; justify-content: space-around; gap: 32px; white-space: nowrap; overflow: hidden; font-size: 11px; font-weight: 700; letter-spacing: 1.4px; }
+
+/* ---------- Recipes section ---------- */
+.recipes-section { max-width: 1260px; margin: auto; padding: 61px 72px 38px; }
+.section-heading { display: flex; justify-content: space-between; align-items: center; }
+.section-heading .eyebrow { color: var(--primary); }
+.section-heading h2 { font-size: 44px; margin: 8px 0; position: relative; display: inline-block; }
+.title-doodle { display: inline-block; color: var(--primary); font-size: 42px; margin-left: 12px; transform: rotate(-15deg); }
+.section-heading p { font-size: 13px; color: var(--muted-foreground); line-height: 1.6; }
+.kitchen-label { font-family: var(--font-display); display: flex; gap: 8px; align-items: center; font-size: 16px; transform: rotate(-4deg); color: var(--herb-ink); }
+.kitchen-label svg { width: 18px; height: 18px; }
+.recipe-toolbar { margin: 27px 0 25px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.filters { display: flex; flex-wrap: wrap; gap: 10px; }
+.recipe-filter { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; border: 1.5px solid var(--border); background: var(--background); height: 38px; border-radius: 8px; padding: 0 15px; color: var(--muted-foreground); font-size: 12px; }
+.recipe-filter svg { width: 11px; height: 11px; }
+.recipe-filter[aria-pressed=true], .recipe-filter.is-selected { border-color: var(--ink); background: var(--herb); color: var(--ink); box-shadow: 0 2px 0 var(--ink); }
+.recipe-filter:hover { border-color: var(--ink); }
+.recipe-search { display: flex; gap: 12px; align-items: center; border: 1.5px solid var(--ink); border-radius: 8px; padding: 6px 14px; margin-bottom: 24px; background: var(--background); }
+.recipe-search svg { width: 18px; height: 18px; flex-shrink: 0; }
+.recipe-search input { flex: 1; min-width: 0; background: transparent; border: none; outline: none; font-size: 14px; height: 30px; }
+.recipe-search:focus-within { outline: 3px solid var(--primary); outline-offset: 3px; } /* added */
+
+/* ---------- Recipe card ---------- */
+.recipe-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: start; }
+.recipe-card { border: 1.5px solid var(--ink); border-radius: 8px; overflow: hidden; background: var(--background); box-shadow: 0 4px 0 color-mix(in oklab, var(--ink) 12%, transparent); }
+.recipe-picture { height: 235px; position: relative; overflow: hidden; border-bottom: 1.5px solid var(--ink); background: var(--dish-surface); }
+.recipe-peach { --dish-surface: var(--peach); }
+.recipe-yellow { --dish-surface: var(--yellow); }
+.recipe-green { --dish-surface: var(--herb); }
+.recipe-picture .recipe-illustration { width: 83%; height: 215px; object-fit: contain; display: block; margin: 29px auto 0; transition: transform .3s; }
+.recipe-card:hover .recipe-picture .recipe-illustration { transform: rotate(-3deg) scale(1.04); }
+/* added: submitted photos as a tilted polaroid inside the colour panel */
+.recipe-polaroid { display: block; width: 72%; margin: 38px auto 0; padding: 8px; background: var(--background); border: 1.5px solid var(--ink); transform: rotate(-2deg); box-shadow: 0 3px 0 color-mix(in oklab, var(--ink) 15%, transparent); transition: transform .3s; }
+.recipe-polaroid img { display: block; width: 100%; height: 150px; object-fit: cover; }
+.recipe-card:hover .recipe-polaroid { transform: rotate(-4deg) scale(1.03); }
+.recipe-tag { position: absolute; left: 15px; top: 17px; font-size: 8px; letter-spacing: 1px; font-weight: 700; z-index: 1; }
+.save-recipe { position: absolute; top: 10px; right: 10px; background: var(--background); border: 1px solid var(--ink); z-index: 2; width: 31px; height: 31px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.save-recipe svg { width: 16px; height: 16px; }
+.save-recipe[aria-pressed=true] svg { fill: var(--primary); }
+.dish-number { position: absolute; bottom: 9px; left: 13px; font-family: var(--font-display); font-size: 17px; opacity: .55; }
+.recipe-info { padding: 19px 20px 17px; }
+.recipe-meta { display: flex; gap: 19px; font-size: 10px; color: var(--muted-foreground); }
+.recipe-meta span { display: inline-flex; gap: 5px; align-items: center; }
+.recipe-meta svg { width: 9px; height: 9px; }
+.recipe-info h3 { font-size: 25px; margin: 13px 0 8px; }
+.recipe-title-link:hover { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+.recipe-info p { font-size: 12px; line-height: 1.7; color: var(--muted-foreground); min-height: 42px; }
+.recipe-details { border-top: 1px solid var(--border); padding: 16px 20px; }
+.recipe-details summary { color: var(--primary); font-family: var(--font-display); font-size: 18px; cursor: pointer; }
+.recipe-details h4, .recipe-page h4 { font-family: var(--font-display); font-size: 22px; margin: 20px 0 10px; font-weight: 400; }
+.recipe-details ul, .recipe-details ol, .recipe-page ul, .recipe-page ol { padding-left: 20px; font-size: 13px; line-height: 1.8; }
+.recipe-details ul, .recipe-page ul { list-style: disc; }
+.recipe-details ol, .recipe-page ol { list-style: decimal; }
+.recipe-details li, .recipe-page li { margin-bottom: 8px; }
+.recipe-footnote { display: flex; align-items: center; justify-content: center; gap: 7px; font-family: var(--font-display); font-size: 15px; color: var(--muted-foreground); padding-top: 31px; }
+.recipe-footnote svg { width: 14px; height: 14px; }
+.dialog-meta { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted-foreground); }
+
+/* ---------- Kitchen note ---------- */
+.kitchen-note { background: var(--herb); border-block: 1px solid var(--border); display: flex; align-items: center; justify-content: center; gap: 39px; padding: 40px 48px; }
+.note-heart { font-size: 86px; line-height: 1; color: var(--herb-ink); transform: rotate(-15deg); display: inline-flex; }
+.note-heart svg { width: .9em; height: .9em; }
+.kitchen-note .eyebrow { color: var(--herb-ink); }
+.kitchen-note h2 { font-size: 34px; margin: 8px 0; }
+.kitchen-note p { font-size: 12px; line-height: 1.8; color: var(--muted-foreground); }
+.kitchen-note .note-share { margin-top: 6px; color: var(--ink); } /* added: submission CTA */
+.kitchen-note .note-share a { color: var(--herb-ink); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.kitchen-note .candy-button { margin-left: 25px; font-size: 17px; height: 43px; }
+
+/* ---------- Footer ---------- */
+.site-footer { max-width: 1260px; margin: auto; display: flex; align-items: center; justify-content: space-between; padding: 27px 72px; gap: 18px; font-size: 10px; color: var(--muted-foreground); }
+.site-footer > span { display: flex; gap: 6px; align-items: center; }
+.footer-brand { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink); font-family: var(--font-display); font-size: 17px; }
+.footer-brand svg { width: 20px; height: 20px; color: var(--ink); }
+
+/* ---------- Empty state ---------- */
+.empty-pot { padding: 50px 16px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+.empty-pot-icon { width: 56px; height: 56px; color: var(--primary); transform: rotate(-8deg); }
+.empty-pot h3 { font-size: 28px; }
+.empty-pot p { font-size: 14px; color: var(--muted-foreground); }
+
+/* ---------- Focus ---------- */
+a:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px solid var(--primary); outline-offset: 5px; }
+
+/* ---------- Breakpoints ---------- */
+@media (min-width: 1450px) { .hero-inner { min-height: 580px; } }
+@media (max-width: 1000px) {
+  .site-header { padding: 22px 30px; } .site-header nav { gap: 18px; }
+  .hero-inner { padding: 40px 42px 18px; min-height: 490px; }
+  .hero h1 { font-size: 62px; } .pot-word { font-size: 84px; } .hero h2 { font-size: 28px; }
+  .food-caption { font-size: 19px; } .love-stamp { width: 90px; height: 90px; font-size: 13px; }
+  .hero-bottom { padding: 12px 42px 24px; }
+  .recipes-section { padding: 48px 36px 34px; } .recipe-grid { gap: 16px; } .recipe-picture { height: 205px; } .recipe-picture .recipe-illustration { height: 185px; } .recipe-info { padding: 16px; } .recipe-info h3 { font-size: 22px; } .recipe-meta { gap: 10px; }
+  .recipe-polaroid img { height: 125px; }
+  .kitchen-note { gap: 22px; padding: 34px; } .kitchen-note .candy-button { margin-left: 0; } .site-footer { padding: 24px 36px; }
+}
+@media (max-width: 700px) {
+  .site-header { padding: 17px 20px; gap: 10px; } .brand { font-size: 16px; gap: 8px; } .brand strong { font-size: 25px; } .brand-pot svg { width: 27px; height: 27px; } .site-header nav { display: none; } .header-tools { gap: 6px; } .saved-button { width: 39px; height: 37px; padding: 0; } .saved-button > span { display: none; } .header-tools > .playful-icon { width: 32px; }
+  .hero-inner { padding: 24px 25px 0; grid-template-columns: 1fr; gap: 0; min-height: 0; }
+  .hero-copy { position: relative; z-index: 2; } .eyebrow { font-size: 8px; letter-spacing: 1.4px; } .little-star { width: 15px; height: 15px; }
+  .hero h1 { font-size: 43px; margin-top: 14px; } .pot-word { font-size: 65px; } .heading-spark { font-size: 39px; right: -59px; } .hero h2 { font-size: 27px; margin: 18px 0 10px; } .hero-copy > p { font-size: 13px; line-height: 1.75; }
+  .hero-cta { height: 45px; margin-top: 21px; font-size: 19px; min-width: 160px; } .hero-note { margin-top: 15px; font-size: 10px; }
+  .hero-art { width: min(100%, 240px); margin: 28px auto 0; aspect-ratio: 1.13; } .hero-food { width: 97%; margin: -1% 0 0 2%; transform: rotate(-7deg); } .food-halo { inset: 8% 6% 2% 6%; } .food-caption { top: -12px; right: 4px; font-size: 19px; } .food-arrow { width: 42px; top: 7px; right: -5px; } .spark-one { top: 34px; left: 0; font-size: 31px; } .spark-two { bottom: 15px; left: 4px; font-size: 29px; } .love-stamp { bottom: 3px; right: -8px; width: 70px; height: 70px; font-size: 10px; } .love-stamp > svg { width: 17px; height: 17px; }
+  .hero-bottom { padding: 12px 25px; font-size: 9px; } .flavour-strip { padding: 12px 15px; gap: 28px; justify-content: flex-start; font-size: 9px; letter-spacing: 1px; }
+  .recipes-section { padding: 36px 20px 28px; } .section-heading h2 { font-size: 34px; margin: 8px 0; } .title-doodle { font-size: 30px; margin-left: 8px; } .section-heading p { font-size: 12px; } .kitchen-label { display: none; }
+  .recipe-toolbar { margin: 23px -20px 20px; padding: 0 20px; align-items: flex-start; gap: 7px; } .filters { gap: 7px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 3px; } .filters::-webkit-scrollbar { display: none; } .recipe-filter { flex-shrink: 0; } .recipe-filter { height: 35px; font-size: 10px; padding: 0 11px; gap: 5px; } .recipe-filter svg { width: 10px; height: 10px; }
+  .recipe-grid { grid-template-columns: 1fr; gap: 24px; } .recipe-picture { height: 260px; } .recipe-picture .recipe-illustration { height: 242px; width: 86%; margin-top: 26px; } .recipe-polaroid img { height: 180px; } .recipe-tag { font-size: 9px; } .recipe-info { padding: 20px; } .recipe-info h3 { font-size: 28px; } .recipe-info p { font-size: 13px; min-height: 0; } .recipe-meta { font-size: 11px; gap: 20px; } .recipe-footnote { font-size: 13px; text-align: center; line-height: 1.4; padding-top: 25px; }
+  .kitchen-note { padding: 30px 25px; gap: 15px; flex-wrap: wrap; justify-content: flex-start; } .note-heart { font-size: 55px; align-self: flex-start; } .kitchen-note > div { flex: 1; } .kitchen-note h2 { font-size: 27px; } .kitchen-note p { font-size: 12px; } .kitchen-note .candy-button { margin-left: 57px; } .desktop-break { display: none; }
+  .site-footer { flex-wrap: wrap; padding: 25px 20px; row-gap: 16px; } .footer-brand { width: 100%; font-size: 19px; } .site-footer > span { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+@media print { .site-header nav, .hero-art, .flavour-strip { display: none; } .recipe-grid { display: block; } .recipe-card { break-inside: avoid; margin-bottom: 24px; } }
