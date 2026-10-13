@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { updateTag } from "next/cache";
 import { z } from "zod";
 import { getAdmin } from "@/lib/auth/admin";
+import { paintDish, paintedPath } from "@/lib/images/paint";
 import { RECIPES_TAG } from "@/lib/recipes/queries";
 import { reviewDecisionSchema } from "@/lib/schemas/review-decision";
 import { slugify } from "@/lib/slugify";
@@ -46,11 +47,17 @@ export async function decideSubmission(submissionId: unknown, input: unknown): P
   if (!submission) return { ok: false, formError: "Submission not found." };
   if (submission.status !== "pending") return { ok: false, formError: "This one has already been reviewed." };
 
-  // Copy the photo from the private bucket to the public one.
-  const extension = submission.image_path.split(".").pop() || "webp";
+  // Copy the chosen picture from the private bucket to the public one:
+  // the painted version for "illustration", the cleaned photo for "photo".
+  const sourcePath = decision.imageStyle === "illustration" ? paintedPath(submission.id) : submission.image_path;
+  const extension = sourcePath.split(".").pop() || "webp";
   const publicPath = `submissions/${submission.id}.${extension}`;
-  const download = await supabase.storage.from("submission-images").download(submission.image_path);
-  if (download.error) return { ok: false, formError: "Couldn’t read the submitted photo." };
+  const download = await supabase.storage.from("submission-images").download(sourcePath);
+  if (download.error) {
+    return decision.imageStyle === "illustration"
+      ? { ok: false, fieldErrors: { imageStyle: ["Paint it first, or choose the photo"] } }
+      : { ok: false, formError: "Couldn’t read the submitted photo." };
+  }
   const upload = await supabase.storage
     .from("recipe-images")
     .upload(publicPath, download.data, { contentType: download.data.type || "image/webp", upsert: true });
@@ -71,6 +78,33 @@ export async function decideSubmission(submissionId: unknown, input: unknown): P
   }
 
   updateTag(RECIPES_TAG); // show the new recipe on the site straight away
+  return { ok: true };
+}
+
+/**
+ * "Paint it Mama's way": make a painted version of the submitted photo.
+ * Plain image processing on our server (lib/images/paint.ts), so the photo is
+ * never sent to an outside service. Saved privately until Mama approves.
+ */
+export async function paintSubmission(submissionId: unknown): Promise<ActionResult> {
+  const admin = await getAdmin();
+  if (!admin) return NOT_ADMIN;
+  const id = z.uuid().safeParse(submissionId);
+  if (!id.success) return { ok: false, formError: "Unknown submission." };
+
+  const { supabase } = admin;
+  const { data: submission } = await supabase.from("recipe_submissions").select("id, image_path").eq("id", id.data).maybeSingle();
+  if (!submission) return { ok: false, formError: "Submission not found." };
+
+  const original = await supabase.storage.from("submission-images").download(submission.image_path);
+  if (original.error) return { ok: false, formError: "Couldn’t read the submitted photo." };
+
+  const painted = await paintDish(Buffer.from(await original.data.arrayBuffer()));
+  const upload = await supabase.storage
+    .from("submission-images")
+    .upload(paintedPath(submission.id), painted, { contentType: "image/png", upsert: true });
+  if (upload.error) return { ok: false, formError: "Couldn’t save the painted picture." };
+
   return { ok: true };
 }
 

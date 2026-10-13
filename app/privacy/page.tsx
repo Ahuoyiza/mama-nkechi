@@ -85,7 +85,9 @@ export default function PrivacyPage() {
             </tbody>
           </table>
           <p>
-            We remove hidden data from photos, such as the location where they were taken, before we store them.
+            We remove hidden data from photos, such as the location where they were taken, before we store them. If
+            your recipe is published, Mama may turn your photo into a painted picture to match the site. That’s done
+            on our own server; your photo isn’t sent to any other company for it.
           </p>
         </section>
 
