@@ -198,7 +198,47 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      approve_submission: {
+        Args: {
+          p_card_colour: Database["public"]["Enums"]["card_colour"]
+          p_image_path: string
+          p_image_style: Database["public"]["Enums"]["image_style"]
+          p_slug: string
+          p_submission_id: string
+          p_tag: string
+        }
+        Returns: {
+          allergens: string[]
+          card_colour: Database["public"]["Enums"]["card_colour"]
+          category: Database["public"]["Enums"]["recipe_category"]
+          created_at: string
+          credit_name: string | null
+          description: string
+          effort: Database["public"]["Enums"]["recipe_effort"]
+          id: string
+          image_path: string
+          image_style: Database["public"]["Enums"]["image_style"]
+          ingredients: Json
+          published: boolean
+          published_at: string | null
+          serves: number
+          slug: string
+          source_submission_id: string | null
+          steps: Json
+          tag: string
+          title: string
+          total_minutes: number
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "recipes"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       is_admin: { Args: never; Returns: boolean }
+      purge_rejected_submissions: { Args: never; Returns: string[] }
       valid_allergens: { Args: { items: string[] }; Returns: boolean }
     }
     Enums: {
