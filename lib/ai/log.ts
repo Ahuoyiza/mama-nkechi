@@ -1,22 +1,9 @@
 /**
- * Safe logging for AI calls.
+ * Logging for AI calls.
  *
  * Logs are copied to dashboards, shared in bug reports and kept for months.
- * So we log only what we need to watch cost and speed: which route, WHO (as a
- * hash, not an id), how many tokens, how long. Never the prompt, the model's
- * reply or any recipe text.
  */
-import { createHash } from "node:crypto";
-
-export type AiCallLog = {
-  event: "ai_call";
-  route: string;
-  admin: string; // salted hash, first 12 characters
-  model: string;
-  ok: boolean;
-  totalTokens: number | null;
-  durationMs: number;
-};
+export type AiCallLog = Record<string, unknown>;
 
 export function aiLogEntry(input: {
   route: string;
@@ -27,15 +14,11 @@ export function aiLogEntry(input: {
   totalTokens?: number;
   durationMs: number;
 }): AiCallLog {
-  return {
-    event: "ai_call",
-    route: input.route,
-    admin: createHash("sha256").update(`${input.salt}:${input.adminId}`).digest("hex").slice(0, 12),
-    model: input.model,
-    ok: input.ok,
-    totalTokens: input.totalTokens ?? null,
-    durationMs: Math.round(input.durationMs),
-  };
+  // TODO (Activity 4): Log only what we need to watch cost and speed:
+  // { event: "ai_call", route, admin, model, ok, totalTokens, durationMs }.
+  // `admin` must be a salted SHA-256 hash of adminId (first 12 characters),
+  // never the raw id. Never log prompts, replies or recipe text.
+  return { event: "ai_call", ...input };
 }
 
 export function logAiCall(entry: AiCallLog) {

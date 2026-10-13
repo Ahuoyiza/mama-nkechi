@@ -1,7 +1,8 @@
+// TODO (Activity 4): remove the .skip once redact() is built.
 import { describe, expect, it } from "vitest";
 import { redact } from "../redact";
 
-describe("redact", () => {
+describe.skip("redact", () => {
   it("replaces email addresses", () => {
     expect(redact("Questions? ada.okafor@example.com")).toBe("Questions? [EMAIL]");
     expect(redact("MAMA+recipes@mail.example.co.uk")).toBe("[EMAIL]");

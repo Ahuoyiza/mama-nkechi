@@ -1,3 +1,4 @@
+// TODO (Activity 4): remove the .skip once the allowlist is built.
 import { describe, expect, it } from "vitest";
 import type { Tables } from "@/lib/supabase/database.types";
 import { buildReviewContext, reviewContextSchema } from "../review-context";
@@ -33,7 +34,7 @@ const submission: Tables<"recipe_submissions"> = {
   created_at: "2026-10-13T12:00:00Z",
 };
 
-describe("buildReviewContext", () => {
+describe.skip("buildReviewContext", () => {
   it("keeps only the recipe fields", () => {
     const context = buildReviewContext(submission);
     expect(Object.keys(context).sort()).toEqual(
@@ -49,12 +50,12 @@ describe("buildReviewContext", () => {
   });
 
   it("redacts details typed into the steps", () => {
-    const { steps } = buildReviewContext(submission);
+    const { steps } = buildReviewContext(submission) as { steps: { text: string }[] };
     expect(steps[1].text).toBe("If it tastes off, call me on [PHONE] or email [EMAIL].");
   });
 });
 
-describe("reviewContextSchema (z.strictObject)", () => {
+describe.skip("reviewContextSchema (z.strictObject)", () => {
   it("rejects any extra key, so personal data can't slip in by accident", () => {
     const context = buildReviewContext(submission);
     const result = reviewContextSchema.safeParse({ ...context, submitterEmail: "adaeze.okafor@example.com" });

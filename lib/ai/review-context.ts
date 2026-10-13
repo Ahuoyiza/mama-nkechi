@@ -1,52 +1,26 @@
 /**
- * What the AI pre-review is allowed to see: an ALLOWLIST.
+ * What the AI pre-review is allowed to see.
  *
- * z.strictObject rejects any key that isn't listed here. So if someone later
- * adds `submitterEmail` to the object we build, parsing fails loudly instead
- * of quietly sending a person's email to a model outside Nigeria.
- *
- * Never sent: submitter name, email, phone, guardian email, IP hash, the photo.
- * Every text field is also run through redact(), because people type phone
- * numbers into their steps.
+ * Right now it sees EVERYTHING in the submission row: the cook's name, email,
+ * phone, guardian's email, IP hash and photo path, all sent to a model run
+ * outside Nigeria. Open the Network tab, ask Mama's helper, and look.
  */
 import { z } from "zod";
 import type { Tables } from "@/lib/supabase/database.types";
-import { redact } from "@/lib/privacy/redact";
-import { allergenEnum, categoryEnum, effortEnum } from "@/lib/schemas/recipe";
 
-const textItems = z.array(z.strictObject({ text: z.string() }));
-
-export const reviewContextSchema = z.strictObject({
-  title: z.string(),
-  description: z.string(),
-  category: categoryEnum,
-  effort: effortEnum,
-  totalMinutes: z.number(),
-  serves: z.number(),
-  ingredients: textItems,
-  steps: textItems,
-  allergens: z.array(allergenEnum),
-});
+// TODO (Activity 4): Replace this with an ALLOWLIST using z.strictObject({...})
+// containing ONLY: title, description, category, effort, totalMinutes, serves,
+// ingredients ([{ text }]), steps ([{ text }]) and allergens.
+// z.strictObject rejects any other key, so personal data can't slip in later.
+export const reviewContextSchema = z.looseObject({});
 
 export type ReviewContext = z.output<typeof reviewContextSchema>;
 
-// Stored jsonb may hold extra keys; keep only `text`, then redact it.
-const storedItems = z.array(z.object({ text: z.string() }));
-const redactItems = (value: unknown) => storedItems.parse(value).map((item) => ({ text: redact(item.text) }));
-
-/** Build the AI's view of a submission. Throws if anything outside the allowlist sneaks in. */
 export function buildReviewContext(submission: Tables<"recipe_submissions">): ReviewContext {
-  return reviewContextSchema.parse({
-    title: redact(submission.title),
-    description: redact(submission.description),
-    category: submission.category,
-    effort: submission.effort,
-    totalMinutes: submission.total_minutes,
-    serves: submission.serves,
-    ingredients: redactItems(submission.ingredients),
-    steps: redactItems(submission.steps),
-    allergens: submission.allergens,
-  });
+  // TODO (Activity 4): Build the object field by field (title, description, …),
+  // run every text field (title, description, each ingredient and step) through
+  // redact() from lib/privacy/redact.ts, then reviewContextSchema.parse() it.
+  return reviewContextSchema.parse({ ...submission });
 }
 
 export const REVIEW_INSTRUCTIONS = `You are a friendly kitchen assistant helping "Mama", who runs a Nigerian recipe website, review recipes sent in by home cooks.
