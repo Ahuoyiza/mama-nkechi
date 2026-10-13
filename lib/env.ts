@@ -13,6 +13,7 @@ export const env = {
   NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "",
   SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY ?? "",
   GOOGLE_GENERATIVE_AI_API_KEY: process.env.GOOGLE_GENERATIVE_AI_API_KEY ?? "",
+  GEMINI_MODEL: process.env.GEMINI_MODEL || "gemini-3.1-flash-lite",
   IP_HASH_SALT: process.env.IP_HASH_SALT ?? "",
   TURNSTILE_ENABLED: Boolean(process.env.TURNSTILE_ENABLED), // bug on purpose: "false" is truthy!
   TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,

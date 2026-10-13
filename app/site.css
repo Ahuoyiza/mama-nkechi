@@ -250,7 +250,7 @@ a:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px soli
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .field > label, .field-label { font-weight: 700; font-size: 13px; }
 .optional { font-weight: 400; color: var(--muted-foreground); }
-.submit-form input[type=text], .submit-form input[type=email], .submit-form input[type=tel], .submit-form input[type=number], .submit-form select, .submit-form textarea {
+.submit-form input[type=text], .submit-form input[type=email], .submit-form input[type=password], .submit-form input[type=tel], .submit-form input[type=number], .submit-form select, .submit-form textarea {
   width: 100%; border: 1.5px solid var(--border); border-radius: 8px; background: var(--background); padding: 10px 12px; font: inherit; font-size: 15px; color: var(--ink); transition: border-color .15s, box-shadow .15s;
 }
 .submit-form textarea { resize: vertical; line-height: 1.5; }
@@ -346,3 +346,65 @@ a:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px soli
   .privacy-table td:first-child { font-weight: 700; }
 }
 .see-all { display: flex; justify-content: center; margin-top: 30px; }
+
+/* =====================================================================
+ * Admin ("Mama's kitchen")
+ * ===================================================================== */
+.admin-shell { min-height: 100vh; background: var(--muted); }
+.admin-loading { padding: 60px; text-align: center; font-family: var(--font-display); font-size: 20px; color: var(--muted-foreground); }
+.admin-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 16px 32px; background: var(--background); border-bottom: 1.5px solid var(--ink); }
+.admin-header nav { display: flex; gap: 22px; flex-wrap: wrap; font-size: 14px; }
+.admin-header nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.admin-user { display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--muted-foreground); }
+.admin-main { max-width: 1160px; margin: auto; padding: 30px 32px 70px; display: flex; flex-direction: column; gap: 22px; }
+.admin-title .eyebrow { color: var(--primary); }
+.admin-title h1 { font-size: 40px; margin: 6px 0 4px; }
+.admin-main h2 { font-size: 24px; display: flex; align-items: center; gap: 8px; }
+.admin-main h2 svg { width: 20px; height: 20px; color: var(--primary); }
+.admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.admin-stat { display: flex; flex-direction: column; gap: 4px; border: 1.5px solid var(--ink); border-radius: 8px; padding: 18px 22px; box-shadow: 0 4px 0 var(--ink); font-size: 14px; transition: transform .18s; }
+.admin-stat:hover { transform: translateY(-2px) rotate(-.5deg); }
+.admin-stat strong { font-family: var(--font-display); font-weight: 400; font-size: 44px; line-height: 1; }
+.stat-peach { background: var(--peach); } .stat-herb { background: var(--herb); }
+.admin-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.admin-list li + li { border-top: 1px solid var(--border); }
+.admin-list a { display: flex; flex-direction: column; gap: 2px; padding: 12px 4px; }
+.admin-list a:hover strong { text-decoration: underline; }
+.admin-list span, .admin-sub { font-size: 12px; color: var(--muted-foreground); display: block; }
+.admin-filters { margin: 0; }
+.admin-table-wrap { overflow-x: auto; border: 1.5px solid var(--ink); border-radius: 8px; background: var(--background); }
+.admin-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.admin-table th { text-align: left; font-family: var(--font-display); font-weight: 400; font-size: 16px; padding: 12px 16px; background: var(--yellow); border-bottom: 1.5px solid var(--ink); }
+.admin-table td { padding: 12px 16px; border-top: 1px solid var(--border); vertical-align: top; }
+.admin-table td a { font-weight: 700; }
+.admin-table td a:hover { text-decoration: underline; }
+.admin-actions { display: flex; gap: 16px; justify-content: flex-end; white-space: nowrap; }
+.link-button.danger { color: var(--candy-edge); }
+.status-chip { display: inline-block; border: 1.5px solid var(--ink); border-radius: 999px; padding: 2px 10px; font-size: 11px; font-weight: 700; letter-spacing: .4px; white-space: nowrap; }
+.status-pending { background: var(--yellow); } .status-approved { background: var(--herb); } .status-rejected { background: var(--peach); }
+.review-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 24px; align-items: start; }
+.review-main, .review-side { display: flex; flex-direction: column; gap: 22px; }
+.review-main .recipe-method { margin-top: 0; grid-template-columns: 1fr; }
+.review-photo { width: 100%; max-height: 380px; object-fit: cover; border: 1.5px solid var(--ink); border-radius: 6px; }
+.review-facts .recipe-page-facts { margin-top: 0; }
+.admin-dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; margin: 0; font-size: 14px; }
+.admin-dl dt { font-weight: 700; } .admin-dl dd { margin: 0; overflow-wrap: anywhere; }
+.ai-panel { background: var(--hero-surface); }
+.ai-result { display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+.ai-result .allergen-note p + p { margin-top: 6px; }
+.ai-issues { margin: 0; padding-left: 20px; list-style: disc; display: flex; flex-direction: column; gap: 6px; }
+.swatch { text-transform: capitalize; }
+.swatch::before { content: ""; width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--ink); }
+.swatch-peach::before { background: var(--peach); } .swatch-yellow::before { background: var(--yellow); } .swatch-herb::before { background: var(--herb); }
+.admin-dialog { border: 2px solid var(--ink); border-radius: 8px; padding: 26px; max-width: 440px; width: calc(100% - 32px); box-shadow: 0 6px 0 var(--ink); }
+.admin-dialog::backdrop { background: var(--overlay); }
+.admin-dialog h2 { font-size: 26px; margin-bottom: 8px; }
+.admin-dialog p { color: var(--muted-foreground); font-size: 14px; line-height: 1.6; white-space: normal; }
+.dialog-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 22px; flex-wrap: wrap; }
+.admin-login { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; padding: 24px; background: var(--hero-surface); }
+.admin-login-card { width: min(100%, 420px); }
+.admin-login-card h1 { font-size: 32px; display: flex; align-items: center; gap: 10px; }
+.admin-login-card h1 svg { color: var(--primary); }
+.login-form { margin-top: 6px; gap: 16px; }
+@media (max-width: 900px) { .review-grid { grid-template-columns: 1fr; } }
+@media (max-width: 700px) { .admin-header { padding: 14px 20px; } .admin-main { padding: 22px 20px 50px; } .admin-title h1 { font-size: 32px; } }
