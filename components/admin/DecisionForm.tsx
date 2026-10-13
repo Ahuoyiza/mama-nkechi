@@ -23,7 +23,15 @@ type DecisionValues = {
   reviewNote: string;
 };
 
-export function DecisionForm({ submissionId, suggestedTag }: { submissionId: string; suggestedTag?: string }) {
+export function DecisionForm({
+  submissionId,
+  suggestedTag,
+  hasPainted,
+}: {
+  submissionId: string;
+  suggestedTag?: string;
+  hasPainted: boolean;
+}) {
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
   const {
@@ -34,7 +42,13 @@ export function DecisionForm({ submissionId, suggestedTag }: { submissionId: str
     formState: { errors, isSubmitting },
   } = useForm<DecisionValues>({
     resolver: zodResolver(reviewDecisionSchema) as unknown as Resolver<DecisionValues>,
-    defaultValues: { decision: "approve", cardColour: "peach", tag: suggestedTag ?? "", imageStyle: "photo", reviewNote: "" },
+    defaultValues: {
+      decision: "approve",
+      cardColour: "peach",
+      tag: suggestedTag ?? "",
+      imageStyle: hasPainted ? "illustration" : "photo",
+      reviewNote: "",
+    },
   });
   const decision = useWatch({ control, name: "decision" });
 
@@ -99,9 +113,11 @@ export function DecisionForm({ submissionId, suggestedTag }: { submissionId: str
                 <input type="radio" value="photo" {...register("imageStyle")} /> Photo (polaroid)
               </label>
               <label className="check-chip">
-                <input type="radio" value="illustration" {...register("imageStyle")} /> Illustration
+                <input type="radio" value="illustration" disabled={!hasPainted} {...register("imageStyle")} /> Painted, Mama’s style
               </label>
             </div>
+            {!hasPainted && <p className="field-hint">Press “Paint it Mama’s way” above to unlock the painted option.</p>}
+            <FieldError id="imageStyle-error" message={errors.imageStyle?.message} />
           </div>
         </>
       ) : (
