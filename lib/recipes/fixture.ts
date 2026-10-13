@@ -38,6 +38,7 @@ export const fixtureRecipes: Recipe[] = [
     cardColour: "peach",
     imageStyle: "illustration",
     creditName: null,
+    fromYard: false,
   },
   {
     id: "fixture-egusi",
@@ -73,6 +74,7 @@ export const fixtureRecipes: Recipe[] = [
     cardColour: "yellow",
     imageStyle: "illustration",
     creditName: null,
+    fromYard: false,
   },
   {
     id: "fixture-suya",
@@ -106,5 +108,6 @@ export const fixtureRecipes: Recipe[] = [
     cardColour: "herb",
     imageStyle: "illustration",
     creditName: null,
+    fromYard: false,
   },
 ];

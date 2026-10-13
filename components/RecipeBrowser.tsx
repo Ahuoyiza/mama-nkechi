@@ -24,7 +24,7 @@ function hrefFor(category: Category | undefined, q: string) {
 /** Filters, search and the recipe grid. Reads ?category= and ?q= through a Zod schema. */
 export async function RecipeBrowser({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const { category, q } = homeSearchParamsSchema.parse(await searchParams);
-  const recipes = await getPublishedRecipes();
+  const recipes = (await getPublishedRecipes()).filter((r) => !r.fromYard);
   const results = filterRecipes(recipes, { category, q });
 
   const categories = [...new Set<Category>([...ALWAYS_SHOWN, ...recipes.map((r) => r.category)])];

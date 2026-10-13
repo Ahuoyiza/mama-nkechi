@@ -316,3 +316,6 @@ a:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px soli
   .thanks-card { padding: 40px 20px 60px; } .thanks-card h1 { font-size: 34px; } .thanks-stamp { right: 10px; bottom: -30px; }
 }
 .form-loading { margin-top: 32px; min-height: 240px; display: grid; place-items: center; font-family: var(--font-display); font-size: 20px; color: var(--muted-foreground); }
+.recipe-cook { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-family: var(--font-display); font-size: 15px; color: var(--herb-ink); min-height: 0 !important; transform: rotate(-1.5deg); }
+.recipe-cook svg { width: 13px; height: 13px; }
+.yard-cta { margin-top: 44px; display: flex; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap; border-top: 1.5px dashed var(--border); padding-top: 30px; font-family: var(--font-display); font-size: 20px; }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Asterisk, Clock, Play } from "lucide-react";
+import { Asterisk, Clock, Heart, Play } from "lucide-react";
 import { effortLabels } from "@/lib/recipes/labels";
 import type { CardColour, Recipe } from "@/lib/recipes/types";
 import { RecipeImage } from "./RecipeImage";
@@ -38,6 +38,11 @@ export function RecipeCard({ recipe, number }: { recipe: Recipe; number: number 
           </Link>
         </h3>
         <p>{recipe.description}</p>
+        {recipe.fromYard && (
+          <p className="recipe-cook">
+            <Heart aria-hidden="true" strokeWidth={1.8} /> From {recipe.creditName ?? "a yard cook"}
+          </p>
+        )}
       </div>
       <div className="recipe-cta">
         <Link href={href} aria-label={`Let’s cook ${recipe.title}`}>

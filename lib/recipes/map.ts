@@ -28,5 +28,6 @@ export function rowToRecipe(row: Tables<"recipes">): Recipe {
     cardColour: row.card_colour,
     imageStyle: row.image_style,
     creditName: row.credit_name,
+    fromYard: row.source_submission_id !== null,
   };
 }

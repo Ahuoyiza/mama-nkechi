@@ -46,4 +46,6 @@ export type Recipe = {
   cardColour: CardColour;
   imageStyle: ImageStyle;
   creditName: string | null;
+  /** True when it came from a community submission ("From the yard"), false for Mama's own. */
+  fromYard: boolean;
 };

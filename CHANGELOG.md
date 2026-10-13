@@ -69,3 +69,4 @@
 - `/submit/thanks` confirmation page: "Mama don collect am!"
 - Server Action body limit raised to 4 MB for photo uploads.
 - Tests: 85 in total, including FormData round trips, IP hashing and image checks (fake JPG, GIF, 599px vs 600px, EXIF removed).
+- Nav renamed: "Mama’s recipes" (home grid, Mama’s own recipes only) and "From the yard" (new `/yard` page of approved community recipes, each credited to its cook).

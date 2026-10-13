@@ -3,7 +3,7 @@ import { Brand } from "./Brand";
 import { CandyLink } from "./CandyButton";
 import { SavedButton } from "./SavedButton";
 
-type Section = "recipes" | "about" | "saved" | "submit" | null;
+type Section = "recipes" | "yard" | "saved" | "submit" | null;
 
 /** Brand left, nav centred, "Saved" and "Share your pot" (the submission form) right. The nav hides below 700px. */
 export function SiteHeader({ current = "recipes" }: { current?: Section }) {
@@ -21,8 +21,8 @@ export function SiteHeader({ current = "recipes" }: { current?: Section }) {
     <header className="site-header">
       <Brand />
       <nav aria-label="Main navigation">
-        {navLink("recipes", "/#recipes", "The recipes")}
-        {navLink("about", "/#about", "Meet the pot")}
+        {navLink("recipes", "/#recipes", "Mama’s recipes")}
+        {navLink("yard", "/yard", "From the yard")}
       </nav>
       <div className="header-tools">
         <SavedButton />
