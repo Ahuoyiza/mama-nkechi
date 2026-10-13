@@ -114,3 +114,4 @@
 - Pictures go through the same server checks as submissions (real file type, size, EXIF stripped), with an optional "Paint it Mama's way" tick box. Replacing a picture removes the old upload.
 - Saving refreshes the site's recipe cache (`updateTag`), so changes show straight away.
 - `RowTools` (move up/down/remove) moved to its own component, shared by both forms.
+- Admin: every submission row now has a clear "Review →" button (and the dashboard list shows "Review →"), instead of relying on the title being a link. Fixed a dev warning about the admin area reading the clock before the session.

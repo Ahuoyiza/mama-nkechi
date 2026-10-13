@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense, type ReactNode } from "react";
+import { connection } from "next/server";
 import { signOut } from "@/app/admin/actions";
 import { Brand } from "@/components/Brand";
 import { requireAdmin } from "@/lib/auth/admin";
@@ -19,6 +20,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 }
 
 async function AdminGate({ children }: { children: ReactNode }) {
+  await connection(); // always render per request: the session check reads the clock and cookies
   const { user } = await requireAdmin(); // not an admin? -> /admin/login
 
   return (

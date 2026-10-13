@@ -420,3 +420,7 @@ a:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px soli
 .paint-panel h2 svg { color: var(--primary); }
 @media (max-width: 700px) { .paint-compare { grid-template-columns: 1fr; } }
 .admin-current-image { width: 180px; aspect-ratio: 1; object-fit: contain; background: var(--peach); border: 1.5px solid var(--ink); border-radius: 6px; padding: 6px; }
+.admin-row-button { height: 34px; font-size: 15px; padding: 0 14px; border-radius: 10px 12px 10px 12px; box-shadow: inset 0 2px 0 var(--sweet-highlight), 0 3px 0 var(--ink); }
+.admin-list a { position: relative; padding-right: 90px; }
+.admin-list-cta { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); font-family: var(--font-display); font-size: 16px; color: var(--primary) !important; }
+.admin-table tbody tr:hover { background: color-mix(in oklab, var(--yellow) 35%, transparent); }

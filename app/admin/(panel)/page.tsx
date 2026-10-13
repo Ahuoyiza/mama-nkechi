@@ -49,6 +49,9 @@ export default async function AdminDashboard() {
                   <span>
                     {categoryLabels[s.category]} · from {s.submitter_name} · {new Date(s.created_at).toLocaleDateString("en-GB")}
                   </span>
+                  <span className="admin-list-cta" aria-hidden="true">
+                    Review →
+                  </span>
                 </Link>
               </li>
             ))}

@@ -52,6 +52,9 @@ export default async function SubmissionsPage({ searchParams }: PageProps<"/admi
                 <th scope="col">Cook</th>
                 <th scope="col">Sent</th>
                 <th scope="col">Status</th>
+                <th scope="col">
+                  <span className="sr-only">Action</span>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -68,6 +71,12 @@ export default async function SubmissionsPage({ searchParams }: PageProps<"/admi
                   <td>{new Date(s.created_at).toLocaleDateString("en-GB")}</td>
                   <td>
                     <span className={`status-chip status-${s.status}`}>{statusLabels[s.status]}</span>
+                  </td>
+                  <td className="admin-actions">
+                    <Link href={`/admin/submissions/${s.id}`} className="candy-button candy-button-sweet admin-row-button">
+                      {s.status === "pending" ? "Review →" : "View"}
+                      <span className="sr-only"> {s.title}</span>
+                    </Link>
                   </td>
                 </tr>
               ))}
