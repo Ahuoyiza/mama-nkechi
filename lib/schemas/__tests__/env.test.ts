@@ -1,4 +1,3 @@
-// TODO (Activity 3): remove the .skip once envSchema is built.
 import { describe, expect, it } from "vitest";
 import { envSchema } from "../env";
 
@@ -10,7 +9,7 @@ const base = {
   IP_HASH_SALT: "a".repeat(64),
 };
 
-describe.skip("envSchema", () => {
+describe("envSchema", () => {
   it("applies defaults", () => {
     const env = envSchema.parse(base);
     expect(env.TURNSTILE_ENABLED).toBe(false);

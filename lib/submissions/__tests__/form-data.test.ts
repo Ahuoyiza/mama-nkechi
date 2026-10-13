@@ -1,10 +1,9 @@
-// TODO (Activity 1): remove the .skip once recipeSubmissionSchema is built.
 import { describe, expect, it } from "vitest";
 import { recipeSubmissionSchema } from "@/lib/schemas/submission";
 import { validSubmission } from "@/lib/schemas/__tests__/fixtures";
 import { fromSubmissionFormData, toSubmissionFormData } from "../form-data";
 
-describe.skip("submission FormData helpers", () => {
+describe("submission FormData helpers", () => {
   it("round-trips a valid submission so the server schema accepts it", () => {
     const sent = toSubmissionFormData(validSubmission({ allergens: ["wheat", "eggs"] }));
     const received = fromSubmissionFormData(sent);

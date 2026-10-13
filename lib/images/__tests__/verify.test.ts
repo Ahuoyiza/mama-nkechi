@@ -1,4 +1,3 @@
-// TODO (Activity 3): remove the .skip once verifyAndCleanImage() is built.
 import sharp from "sharp";
 import { describe, expect, it } from "vitest";
 import { verifyAndCleanImage } from "../verify";
@@ -12,7 +11,7 @@ async function jpeg(width: number, height: number, withExif = false) {
   return new File([new Uint8Array(await img.toBuffer())], "dish.jpg", { type: "image/jpeg" });
 }
 
-describe.skip("verifyAndCleanImage", () => {
+describe("verifyAndCleanImage", () => {
   it("accepts a real photo and re-encodes it as WebP", async () => {
     const result = await verifyAndCleanImage(await jpeg(800, 600));
     expect(result.ok).toBe(true);

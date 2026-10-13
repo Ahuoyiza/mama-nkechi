@@ -1,8 +1,7 @@
-// TODO (Activity 1): remove the .skip once the schemas in lib/schemas are built.
 import { describe, expect, it } from "vitest";
 import { cleanText, emailField, nigerianPhone, optionalEmail, optionalText } from "../helpers";
 
-describe.skip("cleanText", () => {
+describe("cleanText", () => {
   const title = cleanText(3, 80);
 
   it("trims surrounding spaces", () => {
@@ -29,7 +28,7 @@ describe.skip("cleanText", () => {
   });
 });
 
-describe.skip("optionalText", () => {
+describe("optionalText", () => {
   const credit = optionalText(2, 40);
   it("turns an empty or blank box into undefined", () => {
     expect(credit.parse("")).toBeUndefined();
@@ -42,7 +41,7 @@ describe.skip("optionalText", () => {
   });
 });
 
-describe.skip("emailField", () => {
+describe("emailField", () => {
   it("trims and lowercases", () => {
     expect(emailField().parse("  Ada@Example.COM ")).toBe("ada@example.com");
   });
@@ -56,7 +55,7 @@ describe.skip("emailField", () => {
   });
 });
 
-describe.skip("nigerianPhone", () => {
+describe("nigerianPhone", () => {
   it("accepts the local 0 format and converts to +234", () => {
     expect(nigerianPhone.parse("08031234567")).toBe("+2348031234567");
   });
