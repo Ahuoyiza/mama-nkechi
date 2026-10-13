@@ -101,3 +101,8 @@
 - `README.md`: what the app is, setup for students (Node 22+, their own Supabase project and keys, migrations and seed, making an admin), scripts, the checkpoint branches, where each layer of validation lives, clearing out rejected submissions, deploying to Vercel, and privacy in short.
 - `.env.example` (committed) lists every variable with where to find it.
 - `npm run purge:rejected` (`scripts/purge-rejected.mjs`) deletes rejected submissions after 30 days along with their photos and painted copies. `purge_rejected_submissions()` now returns each submission's id as well as its photo path.
+
+### More of Mama's recipes
+
+- Added **Ofe Nsala** (Igbo white soup with catfish, thickened with yam) and **Masa** (Northern rice cakes) to the live database and to `supabase/seed.sql`.
+- They use `public/images/pot-placeholder.png` (Mama's steaming pot on the card colour) until real photos are added through the admin.
