@@ -233,3 +233,5 @@ a:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px soli
   .recipe-method { grid-template-columns: 1fr; gap: 20px; margin-top: 30px; } .recipe-method section { padding: 18px 20px; } .recipe-method h2 { font-size: 26px; }
 }
 @media print { .back-link, .save-recipe, .site-header, .site-footer { display: none; } .recipe-method { display: block; } .recipe-method section { border: 0; padding: 0; margin-bottom: 20px; } }
+.footer-email { color: var(--muted-foreground); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; }
+.footer-email:hover { color: var(--primary); text-decoration-color: currentColor; }

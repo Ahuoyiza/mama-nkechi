@@ -7,8 +7,10 @@ export function Footer() {
       <Link href="/" className="footer-brand">
         <SteamingPot /> Mama Nkechi’s Pot
       </Link>
-      <span>From Nigeria, with love ♡</span>
-      <span>Come hungry. Leave happy.</span>
+      <span>From Sophia Ahuoyiza, with love ♡</span>
+      <a href="mailto:sophia@ahuoyiza.com" className="footer-email">
+        sophia@ahuoyiza.com
+      </a>
     </footer>
   );
 }
