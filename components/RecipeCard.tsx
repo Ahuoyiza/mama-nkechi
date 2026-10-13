@@ -1,10 +1,9 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
-import { Asterisk, Clock } from "lucide-react";
+import { Asterisk, Clock, Play } from "lucide-react";
 import { effortLabels } from "@/lib/recipes/labels";
 import type { CardColour, Recipe } from "@/lib/recipes/types";
-import { RecipeDetails } from "./RecipeDetails";
 import { RecipeImage } from "./RecipeImage";
+import { SaveRecipeButton } from "./SaveRecipeButton";
 
 export const surfaceClass: Record<CardColour, string> = {
   peach: "recipe-peach",
@@ -13,12 +12,14 @@ export const surfaceClass: Record<CardColour, string> = {
 };
 
 /** All user text renders as plain React text, never as HTML. */
-export function RecipeCard({ recipe, number, saveButton }: { recipe: Recipe; number: number; saveButton?: ReactNode }) {
+export function RecipeCard({ recipe, number }: { recipe: Recipe; number: number }) {
+  const href = `/recipes/${recipe.slug}`;
+
   return (
     <article className={`recipe-card ${surfaceClass[recipe.cardColour]}`}>
       <div className="recipe-picture">
         <span className="recipe-tag">{recipe.tag}</span>
-        {saveButton}
+        <SaveRecipeButton slug={recipe.slug} title={recipe.title} />
         <RecipeImage path={recipe.imagePath} style={recipe.imageStyle} alt={`Illustration of ${recipe.title}`} />
         <span className="dish-number">{String(number).padStart(2, "0")}</span>
       </div>
@@ -32,13 +33,17 @@ export function RecipeCard({ recipe, number, saveButton }: { recipe: Recipe; num
           </span>
         </div>
         <h3>
-          <Link href={`/recipes/${recipe.slug}`} className="recipe-title-link">
+          <Link href={href} className="recipe-title-link">
             {recipe.title}
           </Link>
         </h3>
         <p>{recipe.description}</p>
       </div>
-      <RecipeDetails serves={recipe.serves} ingredients={recipe.ingredients} steps={recipe.steps} />
+      <div className="recipe-cta">
+        <Link href={href} aria-label={`Let’s cook ${recipe.title}`}>
+          <Play aria-hidden="true" fill="currentColor" strokeWidth={0} /> Let’s cook
+        </Link>
+      </div>
     </article>
   );
 }

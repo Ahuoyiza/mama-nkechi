@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { Brand } from "./Brand";
 import { CandyLink } from "./CandyButton";
+import { SavedButton } from "./SavedButton";
 
-type Section = "recipes" | "about" | "submit" | null;
+type Section = "recipes" | "about" | "saved" | "submit" | null;
 
-/** Brand left, nav centred, "Come chop!" right. The nav hides below 700px. */
+/** Brand left, nav centred, "Saved" and "Share your pot" (the submission form) right. The nav hides below 700px. */
 export function SiteHeader({ current = "recipes" }: { current?: Section }) {
   const navLink = (section: Section, href: string, label: string) => (
     <Link
@@ -22,11 +23,11 @@ export function SiteHeader({ current = "recipes" }: { current?: Section }) {
       <nav aria-label="Main navigation">
         {navLink("recipes", "/#recipes", "The recipes")}
         {navLink("about", "/#about", "Meet the pot")}
-        {navLink("submit", "/submit", "Share your recipe")}
       </nav>
       <div className="header-tools">
-        <CandyLink variant="sweet" href="/#recipes">
-          Come chop! <span aria-hidden="true">→</span>
+        <SavedButton />
+        <CandyLink variant="sweet" href="/submit" className="share-cta">
+          Share your pot <span aria-hidden="true">→</span>
         </CandyLink>
       </div>
     </header>

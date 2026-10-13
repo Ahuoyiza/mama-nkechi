@@ -1,17 +1,13 @@
-import { Asterisk } from "lucide-react";
-import { FilterChip } from "@/components/FilterChip";
+import { Suspense } from "react";
 import { FlavourStrip } from "@/components/FlavourStrip";
 import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import { KitchenNote } from "@/components/KitchenNote";
-import { RecipeCard } from "@/components/RecipeCard";
+import { RecipeBrowser, RecipeBrowserSkeleton } from "@/components/RecipeBrowser";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Sparkle, Squiggle, SteamingPot } from "@/components/doodles";
-import { fixtureRecipes } from "@/lib/recipes/fixture";
 
-export default function Home() {
-  const recipes = fixtureRecipes;
-
+export default function Home({ searchParams }: PageProps<"/">) {
   return (
     <>
       <SiteHeader current="recipes" />
@@ -36,28 +32,10 @@ export default function Home() {
             </span>
           </div>
 
-          <nav className="recipe-toolbar" aria-label="Recipe categories">
-            <div className="filters">
-              <FilterChip href="/#recipes" selected>
-                <Asterisk aria-hidden="true" strokeWidth={2} /> All recipes
-              </FilterChip>
-              <FilterChip href="/?category=rice#recipes" selected={false}>
-                Rice dishes
-              </FilterChip>
-              <FilterChip href="/?category=soups_stews#recipes" selected={false}>
-                Soups &amp; stews
-              </FilterChip>
-              <FilterChip href="/?category=small_chops#recipes" selected={false}>
-                Small chops
-              </FilterChip>
-            </div>
-          </nav>
-
-          <div className="recipe-grid">
-            {recipes.map((recipe, i) => (
-              <RecipeCard key={recipe.id} recipe={recipe} number={i + 1} />
-            ))}
-          </div>
+          {/* The URL (?category=, ?q=) is request data, so this part streams in. */}
+          <Suspense fallback={<RecipeBrowserSkeleton />}>
+            <RecipeBrowser searchParams={searchParams} />
+          </Suspense>
 
           <div className="recipe-footnote">
             <Sparkle aria-hidden="true" /> A few favourites to start. So much goodness to come.

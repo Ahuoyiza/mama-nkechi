@@ -28,7 +28,7 @@ export function Hero() {
             <br className="desktop-break" /> And a whole lot of love in every pot.
           </p>
           <CandyLink href="#recipes" className="hero-cta">
-            Come chop! <span aria-hidden="true">→</span>
+            See wetin dey pot <span aria-hidden="true">→</span>
           </CandyLink>
           <div className="hero-note">
             <Heart aria-hidden="true" strokeWidth={1.6} /> Made with love. Shared with you.
