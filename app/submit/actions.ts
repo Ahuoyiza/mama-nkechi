@@ -2,117 +2,88 @@
 
 import { randomUUID } from "node:crypto";
 import { headers } from "next/headers";
-import { z } from "zod";
 import { env } from "@/lib/env";
-import { verifyAndCleanImage } from "@/lib/images/verify";
-import { recipeSubmissionSchema } from "@/lib/schemas/submission";
 import { fromSubmissionFormData } from "@/lib/submissions/form-data";
 import { clientIpFrom, hashIp } from "@/lib/submissions/ip-hash";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { verifyTurnstile } from "@/lib/turnstile";
+import type { Database } from "@/lib/supabase/database.types";
 
 export type SubmitResult =
   | { ok: true }
   | { ok: false; fieldErrors?: Record<string, string[] | undefined>; formError?: string };
 
+type Enums = Database["public"]["Enums"];
+
 /**
  * Receives the "Share your pot" form.
  *
- * The parameter is typed `unknown` on purpose. TypeScript types vanish at
- * runtime, and a server action is a public endpoint: anyone can call it with
- * any body using curl or Postman, skipping our form completely. Treat the
- * input as untrusted until Zod has checked it.
+ * WARNING: this version trusts whatever it is sent. The browser form checks
+ * the data, but anyone can call this server action directly (DevTools,
+ * curl, Postman) and skip the form completely.
  */
 export async function submitRecipe(input: unknown): Promise<SubmitResult> {
   if (!(input instanceof FormData)) return { ok: false, formError: "Something went wrong. Please try again." };
   const formData = input;
 
-  // 1. Honeypot: people never see the "website" box, bots fill it in.
-  //    Pretend it worked so the bot learns nothing.
-  const honeypot = formData.get("website");
-  if (typeof honeypot === "string" && honeypot.length > 0) return { ok: true };
+  // TODO (Activity 3): Honeypot. If the hidden "website" field has anything in
+  // it, a bot filled it in. Return { ok: true } without saving, so the bot
+  // thinks it worked. (Lesson: "Spam protection")
 
-  const requestHeaders = await headers();
-  const ip = clientIpFrom(requestHeaders);
+  // TODO (Activity 3): Rate limit. Count this email's and this connection's
+  // submissions in the last 24 hours (hash the IP with hashIp() and
+  // env.IP_HASH_SALT) and stop at env.SUBMISSIONS_PER_DAY.
 
-  // 2. Turnstile (optional, behind an env flag).
-  if (env.TURNSTILE_ENABLED) {
-    const token = formData.get("cf-turnstile-response");
-    if (!(await verifyTurnstile(typeof token === "string" ? token : null, ip))) {
-      return { ok: false, formError: "Please complete the “are you human?” check and try again." };
-    }
-  }
+  // TODO (Activity 3): Validate with recipeSubmissionSchema.safeParse(...).
+  // On failure return { ok: false, fieldErrors: z.flattenError(error).fieldErrors }
+  // so the form can show each message under its field.
+  const raw = fromSubmissionFormData(formData);
+  const text = (key: string) => (typeof raw[key] === "string" ? (raw[key] as string) : "");
 
-  // 3. Rate limit: at most SUBMISSIONS_PER_DAY per email and per connection.
+  const image = raw.image;
+  if (!(image instanceof File)) return { ok: false, formError: "Please add a photo." };
+
+  // TODO (Activity 3): Re-check the photo on the server with
+  // verifyAndCleanImage() from lib/images/verify.ts (magic bytes, minimum
+  // size, strip EXIF). Right now the original file is stored as it came,
+  // GPS location and all.
   const supabase = createSupabaseAdminClient();
-  const ipHash = hashIp(ip, env.IP_HASH_SALT);
-  const rawEmail = formData.get("submitterEmail");
-  const email = typeof rawEmail === "string" ? rawEmail.trim().toLowerCase() : "";
-  const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-
-  const countSince = async (column: "ip_hash" | "submitter_email", value: string) => {
-    const { count, error } = await supabase
-      .from("recipe_submissions")
-      .select("id", { count: "exact", head: true })
-      .eq(column, value)
-      .gte("created_at", since);
-    if (error) throw new Error(`Rate limit check failed: ${error.message}`);
-    return count ?? 0;
-  };
-
-  const [byIp, byEmail] = await Promise.all([countSince("ip_hash", ipHash), email ? countSince("submitter_email", email) : 0]);
-  if (byIp >= env.SUBMISSIONS_PER_DAY || byEmail >= env.SUBMISSIONS_PER_DAY) {
-    return {
-      ok: false,
-      formError: "Mama’s pot is full for today! You can share more recipes tomorrow.",
-    };
-  }
-
-  // 4. Validate with the SAME schema the form used.
-  const parsed = recipeSubmissionSchema.safeParse(fromSubmissionFormData(formData));
-  if (!parsed.success) {
-    return { ok: false, fieldErrors: z.flattenError(parsed.error).fieldErrors };
-  }
-  const data = parsed.data;
-
-  // 5. Re-check the photo's real bytes, then strip its metadata.
-  const image = await verifyAndCleanImage(data.image);
-  if (!image.ok) return { ok: false, fieldErrors: { image: [image.message] } };
-
-  const imagePath = `${new Date().toISOString().slice(0, 10)}/${randomUUID()}.${image.extension}`;
+  const extension = image.name.split(".").pop()?.toLowerCase() || "jpg";
+  const imagePath = `${new Date().toISOString().slice(0, 10)}/${randomUUID()}.${extension}`;
   const upload = await supabase.storage
     .from("submission-images")
-    .upload(imagePath, image.buffer, { contentType: image.contentType, upsert: false });
+    .upload(imagePath, image, { contentType: image.type, upsert: false });
   if (upload.error) return { ok: false, formError: "We couldn’t save your photo. Please try again." };
 
-  // 6. Insert with the service role (submissions have no public RLS policies).
+  const ip = clientIpFrom(await headers());
+
   const { error } = await supabase.from("recipe_submissions").insert({
-    title: data.title,
-    description: data.description,
-    category: data.category,
-    effort: data.effort,
-    total_minutes: data.totalMinutes,
-    serves: data.serves,
-    ingredients: data.ingredients,
-    steps: data.steps,
-    allergens: data.allergens,
+    title: text("title"),
+    description: text("description"),
+    category: text("category") as Enums["recipe_category"],
+    effort: text("effort") as Enums["recipe_effort"],
+    total_minutes: Number(text("totalMinutes")),
+    serves: Number(text("serves")),
+    ingredients: (raw.ingredients ?? []) as never,
+    steps: (raw.steps ?? []) as never,
+    allergens: (raw.allergens ?? []) as string[],
     image_path: imagePath,
-    submitter_name: data.submitterName,
-    submitter_email: data.submitterEmail,
-    submitter_phone: data.submitterPhone ?? null,
-    credit_name: data.creditName ?? null,
-    is_adult: data.isAdult,
-    guardian_email: data.isAdult ? null : (data.guardianEmail ?? null),
-    consent_publish: data.consentPublish,
-    consent_privacy: data.consentPrivacy,
-    ip_hash: ipHash,
+    submitter_name: text("submitterName"),
+    submitter_email: text("submitterEmail"),
+    submitter_phone: text("submitterPhone") || null,
+    credit_name: text("creditName") || null,
+    is_adult: text("isAdult") !== "no",
+    guardian_email: text("guardianEmail") || null,
+    consent_publish: raw.consentPublish === true,
+    consent_privacy: raw.consentPrivacy === true,
+    ip_hash: hashIp(ip, env.IP_HASH_SALT),
   });
 
   if (error) {
     await supabase.storage.from("submission-images").remove([imagePath]);
+    // The database's CHECK constraints are the last line of defence. When
+    // they catch something, all we can say is "something went wrong".
     return { ok: false, formError: "Something went wrong saving your recipe. Please try again." };
   }
 
-  // 7. Done. The client redirects to /submit/thanks.
   return { ok: true };
 }
