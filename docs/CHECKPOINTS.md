@@ -36,7 +36,7 @@ Checks you can run on any branch: `npm run test`, `npm run lint`, `npm run typec
 | `lib/schemas/helpers.ts` | 32 | `nigerianPhone`: `0…` or `+234…` in, `+234…` out |
 | `lib/schemas/recipe.ts` | 7 | Enums with friendly errors |
 | `lib/schemas/recipe.ts` | 15 | `recipeCoreSchema` |
-| `lib/schemas/recipe.ts` | 20 | *(stretch)* `recipeSchema` with `.extend()` |
+| `lib/schemas/recipe.ts` | 22 | *(stretch)* rebuild the admin `recipeSchema` from `recipeCoreSchema` with `.extend()` |
 | `lib/schemas/submission.ts` | 12 | `imageFileSchema` with `z.file()` |
 | `lib/schemas/submission.ts` | 16 | `recipeSubmissionSchema` + the under-18 guardian rule |
 | `lib/schemas/__tests__/*.test.ts` | 1 | Remove `.skip` when the schema is built |
