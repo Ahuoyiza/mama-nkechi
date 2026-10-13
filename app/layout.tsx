@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-GB" className={`${dmSans.variable} ${itim.variable}`}>
+    <html lang="en-GB" data-scroll-behavior="smooth" className={`${dmSans.variable} ${itim.variable}`}>
       <body>{children}</body>
     </html>
   );

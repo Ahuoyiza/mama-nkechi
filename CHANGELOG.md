@@ -56,3 +56,16 @@
 - 69 Vitest tests: valid, invalid and edge cases (tonal marks, `+234` vs `0` phones, the exact 3 MB boundary, empty vs filled honeypot, conditional guardian email, approve vs reject).
 - Lesson note: a test caught that `when` receives the *transformed* value; re-parsing it with the input schema silently skipped the guardian rule.
 - Renamed the fixed jollof illustration to `jollof-rice.png` so browsers and CDNs can't keep serving the old cached cut-out. The seed row was updated to match.
+
+## Milestone 6: Submission flow
+
+- `/submit` "Share your pot" form: React Hook Form with `zodResolver(recipeSubmissionSchema)`, `mode: "onTouched"`, and both `z.input`/`z.output` types in `useForm`.
+- `useFieldArray` for ingredients and steps (add, remove, move up/down; keys use `field.id`). Photo picker with a polaroid preview through `Controller`.
+- Accessible errors: `aria-invalid`, `aria-describedby`, `role="alert"`; focus moves to the first error, including errors that come back from the server.
+- Under-18 question shows the guardian email box only when "No" is picked (`useWatch`).
+- Server action `app/submit/actions.ts` takes `unknown` and runs, in order: honeypot (silent fake success), Turnstile (if enabled), rate limit per email and per hashed IP, `recipeSubmissionSchema.safeParse`, image re-check, upload to the private bucket, insert with the service role. Returns `{ ok: true }` or `{ ok: false, fieldErrors }` from `z.flattenError`.
+- `lib/images/verify.ts`: checks magic bytes with `file-type`, rejects photos under 600px on the short side, re-encodes with `sharp` to WebP and strips EXIF (including GPS).
+- `lib/submissions/form-data.ts`: shared helpers to send the form as FormData and read it back (unknown keys are dropped).
+- `/submit/thanks` confirmation page: "Mama don collect am!"
+- Server Action body limit raised to 4 MB for photo uploads.
+- Tests: 85 in total, including FormData round trips, IP hashing and image checks (fake JPG, GIF, 599px vs 600px, EXIF removed).
