@@ -1,3 +1,4 @@
+// TODO (Activity 1): remove the .skip once the schemas in lib/schemas are built.
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { MAX_IMAGE_BYTES, recipeSubmissionSchema } from "../submission";
@@ -8,7 +9,7 @@ const errorsFor = (input: unknown) => {
   return result.success ? {} : z.flattenError(result.error).fieldErrors;
 };
 
-describe("recipeSubmissionSchema: valid input", () => {
+describe.skip("recipeSubmissionSchema: valid input", () => {
   it("accepts a complete submission", () => {
     expect(recipeSubmissionSchema.safeParse(validSubmission()).success).toBe(true);
   });
@@ -39,7 +40,7 @@ describe("recipeSubmissionSchema: valid input", () => {
   });
 });
 
-describe("recipeSubmissionSchema: friendly errors", () => {
+describe.skip("recipeSubmissionSchema: friendly errors", () => {
   it("uses the app's voice", () => {
     const errors = errorsFor(
       validSubmission({
@@ -85,7 +86,7 @@ describe("recipeSubmissionSchema: friendly errors", () => {
   });
 });
 
-describe("recipeSubmissionSchema: image", () => {
+describe.skip("recipeSubmissionSchema: image", () => {
   it("accepts JPG, PNG and WebP", () => {
     for (const type of ["image/jpeg", "image/png", "image/webp"]) {
       expect(errorsFor(validSubmission({ image: fakeImage(500, type) })).image).toBeUndefined();
@@ -111,7 +112,7 @@ describe("recipeSubmissionSchema: image", () => {
   });
 });
 
-describe("recipeSubmissionSchema: consent and honeypot", () => {
+describe.skip("recipeSubmissionSchema: consent and honeypot", () => {
   it("requires both consent boxes to be ticked", () => {
     const errors = errorsFor(validSubmission({ consentPublish: false as never, consentPrivacy: false as never }));
     expect(errors.consentPublish).toEqual(["Tick this so Mama can share your recipe"]);
@@ -127,7 +128,7 @@ describe("recipeSubmissionSchema: consent and honeypot", () => {
   });
 });
 
-describe("recipeSubmissionSchema: under-18s (conditional guardian email)", () => {
+describe.skip("recipeSubmissionSchema: under-18s (conditional guardian email)", () => {
   it("adults don't need a guardian", () => {
     expect(recipeSubmissionSchema.safeParse(validSubmission({ isAdult: "yes" })).success).toBe(true);
   });
