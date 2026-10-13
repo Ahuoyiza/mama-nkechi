@@ -238,7 +238,13 @@ export type Database = {
         }
       }
       is_admin: { Args: never; Returns: boolean }
-      purge_rejected_submissions: { Args: never; Returns: string[] }
+      purge_rejected_submissions: {
+        Args: never
+        Returns: {
+          id: string
+          image_path: string
+        }[]
+      }
       valid_allergens: { Args: { items: string[] }; Returns: boolean }
     }
     Enums: {

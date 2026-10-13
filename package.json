@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "make-admin": "node --env-file=.env.local scripts/make-admin.mjs",
     "seed:images": "node --env-file=.env.local scripts/seed-images.mjs",
-    "db:types": "supabase gen types typescript --linked --schema public > lib/supabase/database.types.ts"
+    "db:types": "supabase gen types typescript --linked --schema public > lib/supabase/database.types.ts",
+    "purge:rejected": "node --env-file=.env.local scripts/purge-rejected.mjs"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.132",
