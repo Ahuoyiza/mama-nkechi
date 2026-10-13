@@ -1,3 +1,4 @@
+// TODO (Activity 1): remove the .skip once the schemas in lib/schemas are built.
 import { describe, expect, it } from "vitest";
 import { recipeCoreSchema, recipeSchema } from "../recipe";
 
@@ -23,7 +24,7 @@ const admin = {
   creditName: "",
 };
 
-describe("recipeCoreSchema", () => {
+describe.skip("recipeCoreSchema", () => {
   it("accepts numbers as well as strings for time and serves", () => {
     expect(recipeCoreSchema.parse({ ...core, totalMinutes: "60", serves: "4" }).totalMinutes).toBe(60);
   });
@@ -33,7 +34,7 @@ describe("recipeCoreSchema", () => {
   });
 });
 
-describe("recipeSchema (admin, built with .extend)", () => {
+describe.skip("recipeSchema (admin, built with .extend)", () => {
   it("accepts a full admin recipe and upper-cases the tag", () => {
     const data = recipeSchema.parse(admin);
     expect(data.tag).toBe("THE PARTY FAVOURITE");

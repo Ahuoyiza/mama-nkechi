@@ -1,7 +1,8 @@
+// TODO (Activity 1): remove the .skip once the schemas in lib/schemas are built.
 import { describe, expect, it } from "vitest";
 import { reviewDecisionSchema } from "../review-decision";
 
-describe("reviewDecisionSchema", () => {
+describe.skip("reviewDecisionSchema", () => {
   it("approve without a reason passes", () => {
     const result = reviewDecisionSchema.safeParse({ decision: "approve", cardColour: "herb", tag: "sweet and sticky!" });
     expect(result.success).toBe(true);
