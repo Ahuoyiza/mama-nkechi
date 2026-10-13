@@ -75,3 +75,15 @@
 
 - `/privacy`: plain-language notice written with the NDPA 2023 in mind. Covers what is collected and why (as a table), that only recipe text (never personal details) may go to an AI provider outside Nigeria, the 30-day deletion of rejected submissions, and how to ask for data to be deleted (sophia@ahuoyiza.com).
 - New `/recipes` page holds Mama's full collection with the category chips and search (`?category=`, `?q=`). The home page now shows Mama's newest six recipes, with chips and search that open `/recipes`, and a "See all of Mama's recipes →" button. "Mama's recipes" in the nav goes to `/recipes`.
+
+## Milestones 7 and 8: Admin and AI pre-review
+
+- Admin area ("Mama's kitchen") at `/admin`: sign-in, dashboard, submissions list filtered by status, review screen, and a recipes list with publish/unpublish and delete (native `<dialog>` confirmation).
+- `proxy.ts` (Next 16's middleware) refreshes the Supabase session and sends signed-out visitors to `/admin/login`. Every admin page, server action and API route also checks `is_admin()` on the server (`lib/auth/admin.ts`).
+- Review screen: the photo through a 10-minute signed URL from the private bucket, the recipe, the cook's private details, the AI panel, and an approve/reject form validated by `reviewDecisionSchema` (the reason box only shows for "Not this time").
+- Approving runs one Postgres function, `approve_submission`, so the recipe is created and the submission marked approved together or not at all. The photo is copied to the public bucket and the site's recipe cache is refreshed (`updateTag`).
+- `purge_rejected_submissions()` deletes rejected submissions 30 days after the decision (service role only; see the README for scheduling).
+- AI pre-review ("Ask Mama's helper"): `POST /api/admin/ai-review`. `lib/ai/review-context.ts` builds a `z.strictObject` allowlist of recipe fields only and runs every text field through `redact()` (`lib/privacy/redact.ts`: emails, Nigerian phone numbers, 11-digit ID numbers). Structured output with `aiReviewSchema`; the result is stored as suggestions and differences between the AI's allergens and the cook's ticks are flagged. `lib/ai/log.ts` logs only route, hashed admin id, model, outcome, tokens and duration.
+- Model set by the optional `GEMINI_MODEL` env var (default `gemini-3.1-flash-lite`, the one answering reliably today). `@ai-sdk/google` pinned to v3, the line that matches AI SDK 6.
+- `package.json` now says Node 22 or newer (`engines`): `@supabase/supabase-js` needs Node 22's built-in WebSocket.
+- Tests: 98, adding `redact()`, the allowlist (extra keys rejected, no personal data, redaction applied) and the safe log.

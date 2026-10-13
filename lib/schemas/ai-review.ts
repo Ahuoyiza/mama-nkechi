@@ -6,7 +6,11 @@
  * and we store and render only these fields.
  */
 import { z } from "zod";
-import { allergenEnum, categoryEnum } from "./recipe";
+// Self-contained on this branch: the helpers in ./recipe are still Activity 1 stubs.
+import { ALLERGENS, CATEGORIES } from "@/lib/recipes/types";
+
+const allergenEnum = z.enum(ALLERGENS);
+const categoryEnum = z.enum(CATEGORIES);
 
 export const aiReviewSchema = z.object({
   completeness: z.enum(["ready", "needs_work"]).describe("Is the recipe complete enough to publish?"),
