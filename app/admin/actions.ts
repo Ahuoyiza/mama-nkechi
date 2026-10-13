@@ -1,11 +1,15 @@
 "use server";
 
+import { randomUUID } from "node:crypto";
 import { redirect } from "next/navigation";
 import { updateTag } from "next/cache";
 import { z } from "zod";
 import { getAdmin } from "@/lib/auth/admin";
 import { paintDish, paintedPath } from "@/lib/images/paint";
+import { verifyAndCleanImage } from "@/lib/images/verify";
+import { fromRecipeFormData } from "@/lib/recipes/form-data";
 import { RECIPES_TAG } from "@/lib/recipes/queries";
+import { recipeSchema } from "@/lib/schemas/recipe";
 import { reviewDecisionSchema } from "@/lib/schemas/review-decision";
 import { slugify } from "@/lib/slugify";
 
@@ -105,6 +109,88 @@ export async function paintSubmission(submissionId: unknown): Promise<ActionResu
     .upload(paintedPath(submission.id), painted, { contentType: "image/png", upsert: true });
   if (upload.error) return { ok: false, formError: "Couldn’t save the painted picture." };
 
+  return { ok: true };
+}
+
+/**
+ * Create (recipeId = null) or edit one of Mama's recipes.
+ * Same pattern as the public form: FormData in, recipeSchema.safeParse on the
+ * server, the photo re-checked and cleaned, optionally painted Mama's way.
+ */
+export async function saveRecipe(recipeId: unknown, input: unknown): Promise<ActionResult> {
+  const admin = await getAdmin();
+  if (!admin) return NOT_ADMIN;
+  if (!(input instanceof FormData)) return { ok: false, formError: "Something went wrong." };
+
+  const id = recipeId === null ? null : z.uuid().safeParse(recipeId);
+  if (id && !id.success) return { ok: false, formError: "Unknown recipe." };
+
+  const { values, image, paint } = fromRecipeFormData(input);
+  const parsed = recipeSchema.safeParse(values);
+  if (!parsed.success) return { ok: false, fieldErrors: z.flattenError(parsed.error).fieldErrors };
+  const recipe = parsed.data;
+  const { supabase } = admin;
+
+  const existing = id
+    ? (await supabase.from("recipes").select("image_path, published_at").eq("id", id.data).maybeSingle()).data
+    : null;
+  if (id && !existing) return { ok: false, formError: "Recipe not found." };
+  if (!existing && !image) return { ok: false, fieldErrors: { image: ["Add a photo or picture for the card"] } };
+
+  let imagePath = existing?.image_path ?? "";
+  let imageStyle = recipe.imageStyle;
+  let uploadedPath: string | null = null;
+
+  if (image) {
+    const clean = await verifyAndCleanImage(image);
+    if (!clean.ok) return { ok: false, fieldErrors: { image: [clean.message] } };
+    const picture = paint ? await paintDish(clean.buffer) : clean.buffer;
+    if (paint) imageStyle = "illustration";
+    const extension = paint ? "png" : clean.extension;
+    uploadedPath = `mama/${recipe.slug}-${randomUUID().slice(0, 8)}.${extension}`;
+    const upload = await supabase.storage
+      .from("recipe-images")
+      .upload(uploadedPath, picture, { contentType: paint ? "image/png" : clean.contentType });
+    if (upload.error) return { ok: false, formError: "Couldn’t save the picture." };
+    imagePath = uploadedPath;
+  }
+
+  const row = {
+    slug: recipe.slug,
+    title: recipe.title,
+    description: recipe.description,
+    tag: recipe.tag,
+    category: recipe.category,
+    effort: recipe.effort,
+    total_minutes: recipe.totalMinutes,
+    serves: recipe.serves,
+    ingredients: recipe.ingredients,
+    steps: recipe.steps,
+    allergens: recipe.allergens,
+    image_path: imagePath,
+    card_colour: recipe.cardColour,
+    image_style: imageStyle,
+    credit_name: recipe.creditName ?? null,
+    published: recipe.published,
+    published_at: recipe.published ? (existing?.published_at ?? new Date().toISOString()) : null,
+  };
+
+  const { error } = id
+    ? await supabase.from("recipes").update(row).eq("id", id.data)
+    : await supabase.from("recipes").insert(row);
+
+  if (error) {
+    if (uploadedPath) await supabase.storage.from("recipe-images").remove([uploadedPath]);
+    if (error.code === "23505") return { ok: false, fieldErrors: { slug: ["Another recipe already uses this web address"] } };
+    return { ok: false, formError: "Couldn’t save the recipe. Please try again." };
+  }
+
+  // Replaced the picture? Remove the old upload (seed art in /public stays).
+  if (uploadedPath && existing && !existing.image_path.startsWith("/")) {
+    await supabase.storage.from("recipe-images").remove([existing.image_path]);
+  }
+
+  updateTag(RECIPES_TAG);
   return { ok: true };
 }
 
