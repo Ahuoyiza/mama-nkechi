@@ -115,3 +115,4 @@
 - Saving refreshes the site's recipe cache (`updateTag`), so changes show straight away.
 - `RowTools` (move up/down/remove) moved to its own component, shared by both forms.
 - Admin: every submission row now has a clear "Review →" button (and the dashboard list shows "Review →"), instead of relying on the title being a link. Fixed a dev warning about the admin area reading the clock before the session.
+- Recipe lists now refresh within about a minute (`cacheLife("minutes")`), so a change made from one server (for example, unpublishing locally) shows on the other (the live site) quickly.

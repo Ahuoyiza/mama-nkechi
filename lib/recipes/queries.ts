@@ -10,7 +10,10 @@ export const RECIPES_TAG = "recipes";
 export async function getPublishedRecipes(): Promise<Recipe[]> {
   "use cache";
   cacheTag(RECIPES_TAG);
-  cacheLife("hours");
+  // Saving in the admin refreshes this server's cache at once (updateTag). But
+  // another server (say, the live site while Mama edits locally) only finds
+  // out when its copy goes stale, so keep that short: refresh after a minute.
+  cacheLife("minutes");
 
   const { data, error } = await createPublicClient()
     .from("recipes")
