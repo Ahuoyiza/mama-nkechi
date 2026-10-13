@@ -39,6 +39,9 @@ export function RecipeAdminRow({ id, slug, title, published, fromYard, credit }:
         <span className={`status-chip ${published ? "status-approved" : "status-pending"}`}>{published ? "Published" : "Hidden"}</span>
       </td>
       <td className="admin-actions">
+        <Link href={`/admin/recipes/${id}/edit`} className="link-button">
+          Edit
+        </Link>
         <button type="button" className="link-button" disabled={pending} onClick={() => run(() => setRecipePublished(id, !published))}>
           {published ? "Unpublish" : "Publish"}
         </button>

@@ -419,3 +419,4 @@ a:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px soli
 .paint-empty { display: grid; place-items: center; height: 100%; font-family: var(--font-display); color: var(--muted-foreground); }
 .paint-panel h2 svg { color: var(--primary); }
 @media (max-width: 700px) { .paint-compare { grid-template-columns: 1fr; } }
+.admin-current-image { width: 180px; aspect-ratio: 1; object-fit: contain; background: var(--peach); border: 1.5px solid var(--ink); border-radius: 6px; padding: 6px; }

@@ -106,3 +106,11 @@
 
 - Added **Ofe Nsala** (Igbo white soup with catfish, thickened with yam) and **Masa** (Northern rice cakes) to the live database and to `supabase/seed.sql`.
 - They use `public/images/pot-placeholder.png` (Mama's steaming pot on the card colour) until real photos are added through the admin.
+
+### Mama's own recipes in the admin
+
+- `/admin/recipes/new` and `/admin/recipes/[id]/edit`: one form for adding and editing Mama's recipes (React Hook Form with `recipeSchema`, ingredient/step lists, allergens, card tag and colour, credit, published).
+- The web address follows the title until it's edited; a taken address comes back as a field error from the server.
+- Pictures go through the same server checks as submissions (real file type, size, EXIF stripped), with an optional "Paint it Mama's way" tick box. Replacing a picture removes the old upload.
+- Saving refreshes the site's recipe cache (`updateTag`), so changes show straight away.
+- `RowTools` (move up/down/remove) moved to its own component, shared by both forms.
