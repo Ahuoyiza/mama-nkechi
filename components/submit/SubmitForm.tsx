@@ -4,7 +4,7 @@ import { useState, type BaseSyntheticEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Script from "next/script";
-import { Controller, useFieldArray, useForm, useWatch, type DefaultValues, type FieldPath } from "react-hook-form";
+import { Controller, useFieldArray, useForm, useWatch, type DefaultValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
 import { submitRecipe } from "@/app/submit/actions";
@@ -47,7 +47,6 @@ export function SubmitForm({ turnstileSiteKey }: { turnstileSiteKey?: string }) 
     control,
     handleSubmit,
     getValues,
-    setError,
     formState: { errors, isSubmitting },
   } = useForm<RecipeSubmissionInput, unknown, RecipeSubmission>({
     resolver: zodResolver(recipeSubmissionSchema),
@@ -77,12 +76,10 @@ export function SubmitForm({ turnstileSiteKey }: { turnstileSiteKey?: string }) 
     }
 
     if (result.formError) setFormError(result.formError);
-    // Put the server's errors back on the fields they belong to.
-    Object.entries(result.fieldErrors ?? {}).forEach(([name, messages], i) => {
-      if (messages?.[0]) {
-        setError(name as FieldPath<RecipeSubmissionInput>, { type: "server", message: messages[0] }, { shouldFocus: i === 0 });
-      }
-    });
+    // TODO (Activity 3): The server will send back fieldErrors (from z.flattenError)
+    // when its own check fails. Put each message back on its field with
+    // setError(name, { type: "server", message: messages[0] }, { shouldFocus: true })
+    // for the first one, so server errors look exactly like client errors.
   };
 
   const arrayError = (e: { message?: string; root?: { message?: string } } | undefined) => e?.message ?? e?.root?.message;
