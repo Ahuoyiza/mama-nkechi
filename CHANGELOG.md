@@ -87,3 +87,4 @@
 - Model set by the optional `GEMINI_MODEL` env var (default `gemini-3.1-flash-lite`, the one answering reliably today). `@ai-sdk/google` pinned to v3, the line that matches AI SDK 6.
 - `package.json` now says Node 22 or newer (`engines`): `@supabase/supabase-js` needs Node 22's built-in WebSocket.
 - Tests: 98, adding `redact()`, the allowlist (extra keys rejected, no personal data, redaction applied) and the safe log.
+- Phones: "Mama’s recipes" and "From the yard" now show as a second row under the header instead of being hidden (the reference hides them because its links only scrolled the home page).

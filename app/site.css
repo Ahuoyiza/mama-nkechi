@@ -164,7 +164,9 @@ a:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px soli
 }
 @media (max-width: 700px) {
   .share-cta { height: 37px; font-size: 16px; padding: 0 13px; gap: 8px; border-radius: 10px 12px 10px 12px; }
-  .site-header { padding: 17px 20px; gap: 10px; } .brand { font-size: 16px; gap: 8px; } .brand strong { font-size: 25px; } .brand-pot svg { width: 27px; height: 27px; } .site-header nav { display: none; } .header-tools { gap: 6px; } .saved-button { width: 39px; height: 37px; padding: 0; } .saved-button > span { display: none; } .header-tools > .playful-icon { width: 32px; }
+  .site-header { padding: 17px 20px 0; gap: 10px; flex-wrap: wrap; } .brand { font-size: 16px; gap: 8px; } .brand strong { font-size: 25px; } .brand-pot svg { width: 27px; height: 27px; }
+  /* changed: the reference hides the nav on phones, but our links go to real pages, so they move to a second row */
+  .site-header nav { order: 3; width: calc(100% + 40px); margin: 4px -20px 0; padding: 10px 20px 14px; justify-content: center; gap: 30px; border-top: 1.5px dashed var(--border); } .site-header nav .nav-link { font-size: 14px; } .site-header nav .nav-link.current::after { bottom: -5px; } .header-tools { gap: 6px; } .saved-button { width: 39px; height: 37px; padding: 0; } .saved-button > span { display: none; } .header-tools > .playful-icon { width: 32px; }
   .hero-inner { padding: 24px 25px 0; grid-template-columns: 1fr; gap: 0; min-height: 0; }
   .hero-copy { position: relative; z-index: 2; } .eyebrow { font-size: 8px; letter-spacing: 1.4px; } .little-star { width: 15px; height: 15px; }
   .hero h1 { font-size: 43px; margin-top: 14px; } .pot-word { font-size: 65px; } .heading-spark { font-size: 39px; right: -59px; } .hero h2 { font-size: 27px; margin: 18px 0 10px; } .hero-copy > p { font-size: 13px; line-height: 1.75; }
