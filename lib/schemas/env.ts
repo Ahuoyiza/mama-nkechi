@@ -22,6 +22,8 @@ export const envSchema = clientEnvSchema
   .extend({
     SUPABASE_SERVICE_ROLE_KEY: z.string().min(20, "Looks too short to be a Supabase key"),
     GOOGLE_GENERATIVE_AI_API_KEY: z.string().min(20),
+    // Google retires and overloads models often; switch without a code change.
+    GEMINI_MODEL: z.preprocess((v) => (v === "" ? undefined : v), z.string().default("gemini-3.1-flash-lite")),
     IP_HASH_SALT: z.string().min(32, "Use at least 32 random characters (openssl rand -hex 32)"),
     // Careful: z.coerce.boolean() would turn the string "false" into true,
     // because any non-empty string is truthy. z.stringbool() reads
