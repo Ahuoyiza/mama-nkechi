@@ -41,7 +41,7 @@ export function Hero() {
           <HandArrow className="food-arrow" />
           <Image
             className="hero-food"
-            src="/images/jollof-pot.png"
+            src="/images/jollof-rice.png"
             width={1024}
             height={1024}
             sizes="(max-width: 700px) 280px, 620px"

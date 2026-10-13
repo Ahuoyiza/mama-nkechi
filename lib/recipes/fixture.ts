@@ -34,7 +34,7 @@ export const fixtureRecipes: Recipe[] = [
       },
     ],
     allergens: [],
-    imagePath: "/images/jollof-pot.png",
+    imagePath: "/images/jollof-rice.png",
     cardColour: "peach",
     imageStyle: "illustration",
     creditName: null,

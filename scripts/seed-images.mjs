@@ -11,7 +11,7 @@ const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.
 const uploads = {
   "seed/efo-riro.png": "public/images/egusi.png",
   "seed/puff-puff.png": "public/images/suya.png",
-  "seed/zobo.png": "public/images/jollof-pot.png",
+  "seed/zobo.png": "public/images/jollof-rice.png",
 };
 
 for (const [path, file] of Object.entries(uploads)) {

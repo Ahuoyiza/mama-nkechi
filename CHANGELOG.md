@@ -55,3 +55,4 @@
 - `lib/schemas/env.ts` and `lib/schemas/search-params.ts` (from milestone 3/4) now have tests too.
 - 69 Vitest tests: valid, invalid and edge cases (tonal marks, `+234` vs `0` phones, the exact 3 MB boundary, empty vs filled honeypot, conditional guardian email, approve vs reject).
 - Lesson note: a test caught that `when` receives the *transformed* value; re-parsing it with the input schema silently skipped the guardian rule.
+- Renamed the fixed jollof illustration to `jollof-rice.png` so browsers and CDNs can't keep serving the old cached cut-out. The seed row was updated to match.
