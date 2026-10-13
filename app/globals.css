@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens, copied from the reference design.
+ * The font variables come from next/font in app/layout.tsx.
+ */
+:root {
+  --font-sans: var(--font-dm-sans), "DM Sans", sans-serif;
+  --font-display: var(--font-itim), "Itim", "Comic Sans MS", cursive;
+  --radius: 0.5rem;
+  --background: oklch(0.99 0.009 92);
+  --foreground: oklch(0.26 0.045 37);
+  --ink: oklch(0.26 0.045 37);
+  --primary: oklch(0.57 0.19 32);
+  --primary-foreground: oklch(0.99 0.01 92);
+  --secondary: oklch(0.88 0.14 87);
+  --muted: oklch(0.96 0.024 91);
+  --muted-foreground: oklch(0.48 0.035 45);
+  --accent: oklch(0.93 0.05 84);
+  --border: oklch(0.83 0.045 77);
+  --peach: oklch(0.92 0.06 48);
+  --yellow: oklch(0.94 0.095 92);
+  --herb: oklch(0.9 0.048 143);
+  --herb-ink: oklch(0.42 0.09 148);
+  --hero-surface: oklch(0.965 0.031 88);
+  --halo: oklch(0.92 0.079 83);
+  --candy-edge: oklch(0.38 0.11 31);
+  --candy-highlight: oklch(0.74 0.15 34);
+  --sweet-highlight: oklch(0.97 0.07 91);
+  --overlay: oklch(0.2 0.025 38 / 65%);
+  --candy-shadow: 0 4px 0 var(--ink);
+}
+
+/* Expose the tokens to Tailwind utilities (bg-peach, text-ink, font-display...). */
+@theme inline {
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --radius-DEFAULT: var(--radius);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-peach: var(--peach);
+  --color-yellow: var(--yellow);
+  --color-herb: var(--herb);
+  --color-herb-ink: var(--herb-ink);
+  --color-hero-surface: var(--hero-surface);
+  --color-halo: var(--halo);
+  --color-candy-edge: var(--candy-edge);
+  --color-candy-highlight: var(--candy-highlight);
+  --color-sweet-highlight: var(--sweet-highlight);
+  --color-overlay: var(--overlay);
+  --shadow-candy: var(--candy-shadow);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 28px;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0;
+}
