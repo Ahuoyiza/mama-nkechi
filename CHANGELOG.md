@@ -95,3 +95,9 @@
 - Plain image processing with `sharp` on our own server: free, about half a second, and the photo is never sent to an outside service. (Image-generating AI needs a paid Google plan; this was chosen instead.)
 - The original and the painted version show side by side; approving with "Painted, Mama's style" publishes the painted PNG as an illustration, otherwise the photo keeps its polaroid frame. The painted copy stays in the private bucket until then.
 - Privacy notice updated to say photos may be painted on our own server.
+
+## Milestone 10: README
+
+- `README.md`: what the app is, setup for students (Node 22+, their own Supabase project and keys, migrations and seed, making an admin), scripts, the checkpoint branches, where each layer of validation lives, clearing out rejected submissions, deploying to Vercel, and privacy in short.
+- `.env.example` (committed) lists every variable with where to find it.
+- `npm run purge:rejected` (`scripts/purge-rejected.mjs`) deletes rejected submissions after 30 days along with their photos and painted copies. `purge_rejected_submissions()` now returns each submission's id as well as its photo path.
