@@ -44,3 +44,14 @@
 
 - Jollof illustration: the original background cut-out had sliced off the top of the bowl's rim. Rebuilt its transparency from the white background so the whole bowl shows (the loose pepper and leaf stay out, as in the reference).
 - Footer now reads "From Sophia Ahuoyiza, with love ♡" with a contact link to sophia@ahuoyiza.com.
+
+## Milestone 5: Schemas and tests
+
+- `lib/schemas/helpers.ts`: `cleanText` (trim + NFC + length), `optionalText`, `emailField`/`optionalEmail` (trim + lowercase), `nigerianPhone` (accepts `0…` and `+234…`, outputs `+234…`).
+- `lib/schemas/recipe.ts`: `recipeCoreSchema`, and `recipeSchema` built from it with `.extend()`.
+- `lib/schemas/submission.ts`: `recipeSubmissionSchema` (also built from the core), including `z.file()` image checks, consent literals, honeypot, and the under-18 guardian rule using Zod 4's `when` option so it reports alongside field errors.
+- `lib/schemas/review-decision.ts`: `reviewDecisionSchema` as a `z.discriminatedUnion("decision", …)`.
+- `lib/schemas/ai-review.ts`: `aiReviewSchema` for the AI pre-review's structured output.
+- `lib/schemas/env.ts` and `lib/schemas/search-params.ts` (from milestone 3/4) now have tests too.
+- 69 Vitest tests: valid, invalid and edge cases (tonal marks, `+234` vs `0` phones, the exact 3 MB boundary, empty vs filled honeypot, conditional guardian email, approve vs reject).
+- Lesson note: a test caught that `when` receives the *transformed* value; re-parsing it with the input schema silently skipped the guardian rule.
