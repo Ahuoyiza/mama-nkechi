@@ -319,3 +319,29 @@ a:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px soli
 .recipe-cook { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-family: var(--font-display); font-size: 15px; color: var(--herb-ink); min-height: 0 !important; transform: rotate(-1.5deg); }
 .recipe-cook svg { width: 13px; height: 13px; }
 .yard-cta { margin-top: 44px; display: flex; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap; border-top: 1.5px dashed var(--border); padding-top: 30px; font-family: var(--font-display); font-size: 20px; }
+
+/* ---------- Prose pages (privacy) ---------- */
+.prose-page { max-width: 760px; margin: auto; padding: 44px 24px 70px; }
+.prose-page .eyebrow { color: var(--primary); }
+.prose-page h1 { font-size: 50px; margin: 10px 0 14px; }
+.prose-page .lead { font-size: 17px; line-height: 1.7; color: var(--muted-foreground); }
+.prose-page section { margin-top: 34px; }
+.prose-page h2 { font-size: 28px; margin-bottom: 10px; transform: rotate(-.6deg); transform-origin: left; }
+.prose-page p, .prose-page li { font-size: 15px; line-height: 1.75; }
+.prose-page p + p { margin-top: 12px; }
+.prose-page ul { list-style: disc; padding-left: 22px; }
+.prose-page li { margin-bottom: 6px; }
+.prose-page a { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
+.privacy-table { width: 100%; border-collapse: separate; border-spacing: 0; border: 1.5px solid var(--ink); border-radius: 8px; overflow: hidden; margin: 8px 0 14px; font-size: 14px; }
+.privacy-table th { background: var(--yellow); text-align: left; font-family: var(--font-display); font-weight: 400; font-size: 16px; padding: 10px 12px; border-bottom: 1.5px solid var(--ink); }
+.privacy-table td { padding: 10px 12px; border-top: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+.privacy-table tr:first-child td { border-top: 0; }
+.prose-footnote { margin-top: 40px; color: var(--muted-foreground); font-size: 13px !important; }
+@media (max-width: 700px) {
+  .prose-page h1 { font-size: 38px; }
+  .privacy-table thead { display: none; }
+  .privacy-table tr { display: block; border-top: 1px solid var(--border); padding: 8px 0; }
+  .privacy-table tr:first-child { border-top: 0; }
+  .privacy-table td { display: block; border: 0; padding: 3px 12px; }
+  .privacy-table td:first-child { font-weight: 700; }
+}

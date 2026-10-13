@@ -70,3 +70,7 @@
 - Server Action body limit raised to 4 MB for photo uploads.
 - Tests: 85 in total, including FormData round trips, IP hashing and image checks (fake JPG, GIF, 599px vs 600px, EXIF removed).
 - Nav renamed: "Mama’s recipes" (home grid, Mama’s own recipes only) and "From the yard" (new `/yard` page of approved community recipes, each credited to its cook).
+
+## Privacy notice (part of milestone 8, done early for class)
+
+- `/privacy`: plain-language notice written with the NDPA 2023 in mind. Covers what is collected and why (as a table), that only recipe text (never personal details) may go to an AI provider outside Nigeria, the 30-day deletion of rejected submissions, and how to ask for data to be deleted (sophia@ahuoyiza.com).
