@@ -39,3 +39,8 @@
 - Save heart on cards and recipe pages, "Saved (n)" header button and `/saved`, stored in `localStorage` (wrapped in try/catch).
 - Header CTA is now "Share your pot →" (to the submission form); the hero CTA is "See wetin dey pot →".
 - `npm run typecheck` now regenerates Next's route types first.
+
+### Fixes
+
+- Jollof illustration: the original background cut-out had sliced off the top of the bowl's rim. Rebuilt its transparency from the white background so the whole bowl shows (the loose pepper and leaf stay out, as in the reference).
+- Footer now reads "From Sophia Ahuoyiza, with love ♡" with a contact link to sophia@ahuoyiza.com.
