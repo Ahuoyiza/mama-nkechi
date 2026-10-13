@@ -19,7 +19,7 @@ npm run dev
 | `class/01-zod` | `recipeSubmissionSchema`, the helpers and their tests are complete | **Activity 2:** React Hook Form, `useFieldArray`, `Controller` |
 | `class/02-form` | The form is fully wired | **Activity 3:** server action validation, image re-check, `setError` mapping, env schema, rate limit |
 | `class/03-server` | The server side is complete | **Activity 4:** AI pre-review with an allowlist, `redact()` and safe logging *(coming)* |
-| `class/04-ai-privacy` | Same as `main` *(coming)* | **Homework:** the reject flow with `z.discriminatedUnion` |
+| `class/04-ai-privacy` | Same as `main` *(coming)* | Nothing: you're done! Apply the same ideas to your own project |
 
 Checks you can run on any branch: `npm run test`, `npm run lint`, `npm run typecheck`. On the early branches some test files are skipped (`describe.skip`): remove the `.skip` when you build that part, and the tests tell you if you got it right.
 
@@ -39,7 +39,6 @@ Checks you can run on any branch: `npm run test`, `npm run lint`, `npm run typec
 | `lib/schemas/recipe.ts` | 20 | *(stretch)* `recipeSchema` with `.extend()` |
 | `lib/schemas/submission.ts` | 12 | `imageFileSchema` with `z.file()` |
 | `lib/schemas/submission.ts` | 16 | `recipeSubmissionSchema` + the under-18 guardian rule |
-| `lib/schemas/review-decision.ts` | 6 | *(homework preview)* `reviewDecisionSchema` |
 | `lib/schemas/__tests__/*.test.ts` | 1 | Remove `.skip` when the schema is built |
 | `lib/submissions/__tests__/form-data.test.ts` | 1 | Remove `.skip` when `recipeSubmissionSchema` is built |
 
@@ -77,6 +76,6 @@ Helpers already in the repo: `components/submit/Field.tsx` (`FieldError`, `Hint`
 
 `lib/ai/review-context.ts` (a `z.strictObject` allowlist), `lib/privacy/redact.ts` and `lib/ai/log.ts`. This checkpoint will be updated when the AI pre-review is added to `main`.
 
-## class/04-ai-privacy → Homework: the reject flow *(coming)*
+## class/04-ai-privacy → Done
 
-`reviewDecisionSchema` is a `z.discriminatedUnion("decision", …)`: approve needs a card colour and tag; reject needs a reason. The UI shows the reason box only when "Reject" is chosen.
+The finished app, the same as `main`. Next step: take one form in your own project and give it the same treatment: one schema shared by the client and the server, friendly errors, and a server that never trusts the browser.
