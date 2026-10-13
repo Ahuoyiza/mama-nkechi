@@ -49,7 +49,7 @@ export default async function YardPage() {
             <EmptyPot title="The yard is quiet… for now">
               <p>
                 No community recipes yet. Yours could be the first! Or browse{" "}
-                <Link href="/#recipes">Mama’s recipes</Link> while you wait.
+                <Link href="/recipes">Mama’s recipes</Link> while you wait.
               </p>
             </EmptyPot>
           )}

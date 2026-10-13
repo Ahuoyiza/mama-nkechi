@@ -6,7 +6,7 @@ import { Search } from "lucide-react";
  */
 export function RecipeSearch({ query, category }: { query: string; category: string | null }) {
   return (
-    <form className="recipe-search" role="search" action="/#recipes" method="get">
+    <form className="recipe-search" role="search" action="/recipes" method="get">
       <Search aria-hidden="true" strokeWidth={1.6} />
       <label htmlFor="recipe-search-input" className="sr-only">
         Search recipes

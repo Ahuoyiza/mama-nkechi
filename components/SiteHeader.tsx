@@ -21,7 +21,7 @@ export function SiteHeader({ current = "recipes" }: { current?: Section }) {
     <header className="site-header">
       <Brand />
       <nav aria-label="Main navigation">
-        {navLink("recipes", "/#recipes", "Mama’s recipes")}
+        {navLink("recipes", "/recipes", "Mama’s recipes")}
         {navLink("yard", "/yard", "From the yard")}
       </nav>
       <div className="header-tools">

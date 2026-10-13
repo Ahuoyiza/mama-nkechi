@@ -74,3 +74,4 @@
 ## Privacy notice (part of milestone 8, done early for class)
 
 - `/privacy`: plain-language notice written with the NDPA 2023 in mind. Covers what is collected and why (as a table), that only recipe text (never personal details) may go to an AI provider outside Nigeria, the 30-day deletion of rejected submissions, and how to ask for data to be deleted (sophia@ahuoyiza.com).
+- New `/recipes` page holds Mama's full collection with the category chips and search (`?category=`, `?q=`). The home page now shows Mama's newest six recipes, with chips and search that open `/recipes`, and a "See all of Mama's recipes →" button. "Mama's recipes" in the nav goes to `/recipes`.

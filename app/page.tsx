@@ -1,13 +1,12 @@
-import { Suspense } from "react";
 import { FlavourStrip } from "@/components/FlavourStrip";
 import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import { KitchenNote } from "@/components/KitchenNote";
-import { RecipeBrowser, RecipeBrowserSkeleton } from "@/components/RecipeBrowser";
+import { HomeRecipes } from "@/components/HomeRecipes";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Sparkle, Squiggle, SteamingPot } from "@/components/doodles";
 
-export default function Home({ searchParams }: PageProps<"/">) {
+export default function Home() {
   return (
     <>
       <SiteHeader current="recipes" />
@@ -32,10 +31,7 @@ export default function Home({ searchParams }: PageProps<"/">) {
             </span>
           </div>
 
-          {/* The URL (?category=, ?q=) is request data, so this part streams in. */}
-          <Suspense fallback={<RecipeBrowserSkeleton />}>
-            <RecipeBrowser searchParams={searchParams} />
-          </Suspense>
+          <HomeRecipes />
 
           <div className="recipe-footnote">
             <Sparkle aria-hidden="true" /> A few favourites to start. So much goodness to come.

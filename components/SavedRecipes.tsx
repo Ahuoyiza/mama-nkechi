@@ -17,7 +17,7 @@ export function SavedRecipes({ recipes }: { recipes: Recipe[] }) {
     return (
       <EmptyPot title="No saved recipes yet">
         <p>
-          Tap the heart on any recipe to keep it here. <Link href="/#recipes">Find something tasty →</Link>
+          Tap the heart on any recipe to keep it here. <Link href="/recipes">Find something tasty →</Link>
         </p>
       </EmptyPot>
     );

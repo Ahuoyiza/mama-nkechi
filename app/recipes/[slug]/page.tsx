@@ -37,7 +37,7 @@ export default async function RecipePage({ params }: PageProps<"/recipes/[slug]"
     <>
       <SiteHeader current={recipe.fromYard ? "yard" : "recipes"} />
       <main className="recipe-page">
-        <Link href={recipe.fromYard ? "/yard" : "/#recipes"} className="back-link">
+        <Link href={recipe.fromYard ? "/yard" : "/recipes"} className="back-link">
           <ArrowLeft aria-hidden="true" strokeWidth={1.8} /> {recipe.fromYard ? "Back to the yard" : "Back to the pot"}
         </Link>
 

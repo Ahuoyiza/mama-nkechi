@@ -345,3 +345,4 @@ a:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px soli
   .privacy-table td { display: block; border: 0; padding: 3px 12px; }
   .privacy-table td:first-child { font-weight: 700; }
 }
+.see-all { display: flex; justify-content: center; margin-top: 30px; }

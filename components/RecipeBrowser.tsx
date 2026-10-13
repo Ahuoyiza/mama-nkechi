@@ -18,10 +18,10 @@ function hrefFor(category: Category | undefined, q: string) {
   if (category) params.set("category", category);
   if (q) params.set("q", q);
   const query = params.toString();
-  return `/${query ? `?${query}` : ""}#recipes`;
+  return `/recipes${query ? `?${query}` : ""}`;
 }
 
-/** Filters, search and the recipe grid. Reads ?category= and ?q= through a Zod schema. */
+/** The /recipes page: filters, search and the full grid. Reads ?category= and ?q= through a Zod schema. */
 export async function RecipeBrowser({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const { category, q } = homeSearchParamsSchema.parse(await searchParams);
   const recipes = (await getPublishedRecipes()).filter((r) => !r.fromYard);
@@ -56,7 +56,7 @@ export async function RecipeBrowser({ searchParams }: { searchParams: Promise<Re
         <EmptyPot title="Nothing in this pot yet!">
           <p>
             {q ? <>We couldn’t find “{q}”. </> : null}
-            Try another search, or <Link href="/#recipes">see all recipes</Link>.
+            Try another search, or <Link href="/recipes">see all recipes</Link>.
           </p>
         </EmptyPot>
       )}
