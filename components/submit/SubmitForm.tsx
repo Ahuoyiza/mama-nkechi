@@ -6,7 +6,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { Controller, useFieldArray, useForm, useWatch, type DefaultValues, type FieldPath } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
+import { Plus } from "lucide-react";
 import { submitRecipe } from "@/app/submit/actions";
 import { CandyButton } from "@/components/CandyButton";
 import { allergenLabels, categoryLabels, effortLabels } from "@/lib/recipes/labels";
@@ -19,6 +19,7 @@ import {
 import { toSubmissionFormData } from "@/lib/submissions/form-data";
 import { FieldError, Hint, a11y } from "./Field";
 import { ImagePicker } from "./ImagePicker";
+import { RowTools } from "./RowTools";
 
 const defaultValues: DefaultValues<RecipeSubmissionInput> = {
   title: "",
@@ -363,34 +364,5 @@ export function SubmitForm({ turnstileSiteKey }: { turnstileSiteKey?: string }) 
         <p className="field-hint">Nothing is public until Mama has a look.</p>
       </div>
     </form>
-  );
-}
-
-/** Move up / move down / remove buttons for a list row. */
-function RowTools({
-  label,
-  index,
-  count,
-  onMove,
-  onRemove,
-}: {
-  label: string;
-  index: number;
-  count: number;
-  onMove: (from: number, to: number) => void;
-  onRemove: () => void;
-}) {
-  return (
-    <span className="row-tools">
-      <button type="button" className="playful-icon" aria-label={`Move ${label} up`} disabled={index === 0} onClick={() => onMove(index, index - 1)}>
-        <ArrowUp aria-hidden="true" />
-      </button>
-      <button type="button" className="playful-icon" aria-label={`Move ${label} down`} disabled={index === count - 1} onClick={() => onMove(index, index + 1)}>
-        <ArrowDown aria-hidden="true" />
-      </button>
-      <button type="button" className="playful-icon" aria-label={`Remove ${label}`} disabled={count <= 1} onClick={onRemove}>
-        <Trash2 aria-hidden="true" />
-      </button>
-    </span>
   );
 }

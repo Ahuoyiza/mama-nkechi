@@ -1,4 +1,5 @@
 import { RecipeAdminRow } from "@/components/admin/RecipeAdminRow";
+import { CandyLink } from "@/components/CandyButton";
 import { requireAdmin } from "@/lib/auth/admin";
 
 export default async function AdminRecipesPage() {
@@ -14,6 +15,9 @@ export default async function AdminRecipesPage() {
       <div className="admin-title">
         <div className="eyebrow">THE WHOLE POT</div>
         <h1>Recipes</h1>
+      </div>
+      <div>
+        <CandyLink href="/admin/recipes/new">+ Add one of Mama’s recipes</CandyLink>
       </div>
       <div className="admin-table-wrap">
         <table className="admin-table">

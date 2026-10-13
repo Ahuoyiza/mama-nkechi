@@ -21,6 +21,21 @@ values
 on conflict (slug) do nothing;
 
 
+-- Two more of Mama’s recipes (placeholder art until real photos are added in the admin).
+insert into public.recipes
+  (slug, title, description, tag, category, effort, total_minutes, serves, ingredients, steps, allergens,
+   image_path, card_colour, image_style, published, published_at, created_at)
+values
+  ('ofe-nsala', 'Ofe Nsala', 'Igbo “white soup” with fresh catfish, thickened with pounded yam and warmed with uda and utazi. Pure comfort.', 'WHITE SOUP, BIG FLAVOUR', 'soups_stews', 'involved', 75, 6,
+   '[{"text":"1 kg fresh catfish, cut into steaks and cleaned with hot water"},{"text":"500 g goat meat or chicken (optional)"},{"text":"4 to 6 small pieces of yam, peeled"},{"text":"2 tbsp ground crayfish"},{"text":"3 uda seeds and 1 tsp ehuru (calabash nutmeg), toasted and ground"},{"text":"2 scotch bonnets, blended"},{"text":"A small handful of utazi leaves, finely sliced"},{"text":"1 tsp ogiri okpei (optional), 2 stock cubes and salt to taste"},{"text":"Pounded yam or fufu, to serve"}]'::jsonb,
+   '[{"text":"If using meat, season it with stock cubes, salt and a little pepper and cook until tender. Keep the stock."},{"text":"Boil the yam until soft, then pound or blend it into a smooth, thick paste."},{"text":"Add enough water to the meat stock to make about 2 litres. Stir in the scotch bonnets, crayfish, uda, ehuru and ogiri, and bring to a boil."},{"text":"Add the catfish gently and simmer for 10 minutes. Don’t stir too much, or the fish will break up."},{"text":"Drop in small lumps of the yam paste and simmer for 10 to 15 minutes until they dissolve and the soup thickens."},{"text":"Add the utazi, season to taste, and simmer for 2 more minutes. Serve hot with pounded yam or fufu."}]'::jsonb,
+   array['fish', 'shellfish']::text[], '/images/pot-placeholder.png', 'peach', 'illustration', true, now(), now()),
+  ('masa', 'Masa', 'Soft, slightly tangy Northern rice cakes, cooked in a masa pan. Lovely with miyan taushe, suya spice or a drizzle of honey.', 'FLUFFY RICE CAKES!', 'small_chops', 'medium', 150, 6,
+   '[{"text":"2 cups short-grain (tuwo) rice, soaked in water overnight"},{"text":"½ cup cooked rice"},{"text":"1 tsp instant yeast"},{"text":"3 tbsp sugar and ½ tsp salt"},{"text":"¼ tsp baking powder"},{"text":"About 1 cup water"},{"text":"Vegetable oil for the pan"}]'::jsonb,
+   '[{"text":"Drain the soaked rice and blend it with the cooked rice and just enough water to make a thick, smooth batter."},{"text":"Stir in the yeast and sugar, cover, and leave somewhere warm for 1 to 1½ hours until bubbly and doubled."},{"text":"Stir in the salt and baking powder. The batter should drop thickly from a spoon."},{"text":"Heat a masa pan (or a small-cup pancake pan) on medium-low and add a little oil to each hole."},{"text":"Fill each hole about three-quarters full, cover, and cook for 2 to 3 minutes until the tops are set and bubbly."},{"text":"Flip each cake and cook for 1 to 2 minutes until golden. Serve warm with miyan taushe, suya spice or honey. Time excludes the overnight soak."}]'::jsonb,
+   '{}'::text[], '/images/pot-placeholder.png', 'yellow', 'illustration', true, now(), now())
+on conflict (slug) do nothing;
+
 -- Fake pending submissions (fake people, @example.com addresses).
 -- Their images are copies of the seed art, uploaded to the private bucket by
 -- `npm run seed:images`. Each one is a teaching moment:
